@@ -41,3 +41,13 @@
 [0609/092144.023:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
 [0609/092228.768:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
 [0609/092228.768:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/092820.845:WARNING:media_session.cc(939)] RED codec red is missing an associated payload type.
+[0609/092821.459:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/092821.460:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/092821.460:WARNING:stun_port.cc(453)] Port[564b5600:0:1:0:local:Net[any:0.0.0.x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/092821.460:WARNING:stun_port.cc(453)] Port[564b5300:0:1:0:local:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/093132.794:WARNING:media_session.cc(939)] RED codec red is missing an associated payload type.
+[0609/093133.397:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/093133.397:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/093133.397:WARNING:stun_port.cc(453)] Port[33964a00:0:1:0:local:Net[any:0.0.0.x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/093133.397:WARNING:stun_port.cc(453)] Port[332f5c00:0:1:0:local:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1

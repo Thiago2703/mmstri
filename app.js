@@ -138,13 +138,13 @@ app.get('/p/create', async (req, res) => {
   console.log(chrome)
   const browser = await puppeteer.launch({
     headless: true,
-    executablePath: chrome,
+    //executablePath: chrome,
     args: [
-      //`--headless=${chrome}`,
-      /*'--disable-web-security',
+      `--headless=${chrome}`,
+      '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process',
       `--disable-extensions-except=${extension}`,
-      `--load-extension=${extension}`,*/
+      `--load-extension=${extension}`,
       '--no-sandbox'
     ],
     //userDataDir: './myUserDataDir'
@@ -173,10 +173,10 @@ app.get('/p/create', async (req, res) => {
     await client.send('Network.clearBrowserCookies')
 
     //#PART 1
-    await page.goto(`https://signup.heroku.com/`, { timeout: 45000, waitUntil: 'networkidle2' });
+    await page.goto(`https://service.mail.com/registration.html?edition=int&lang=en&#.1258-header-signup2-1`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await delay(4000000);
-    //await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
-    //await page.click('#onetrust-accept-btn-handler', { button: 'left' });
+    await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
+    await page.click('#onetrust-accept-btn-handler', { button: 'left' });
     await autoScroll(page);
 
     async function rcaptcha(page) {
@@ -195,11 +195,11 @@ app.get('/p/create', async (req, res) => {
           await frame.click('#recaptcha-anchor', {
             button: 'left',
           });
-          /*await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+          await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
           await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 10000 });
           await content_frame.click('#recaptcha-audio-button', {
             button: 'left',
-          });*/
+          });
           /*await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 10000, visible: true });*/
           resolve('BYPASSED');
         } catch (error) {
