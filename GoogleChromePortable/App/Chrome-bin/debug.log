@@ -28,3 +28,16 @@
 [0609/090502.408:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
 [0609/090502.408:WARNING:stun_port.cc(453)] Port[a551f00:0:1:0:local:Net[any:0.0.0.x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
 [0609/090502.408:WARNING:stun_port.cc(453)] Port[a551c00:0:1:0:local:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/091843.916:WARNING:media_session.cc(939)] RED codec red is missing an associated payload type.
+[0609/091844.385:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/091844.385:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/091844.385:WARNING:stun_port.cc(453)] Port[45ad5300:0:1:0:local:Net[any:0.0.0.x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/091844.385:WARNING:stun_port.cc(453)] Port[45ad5000:0:1:0:local:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/091935.099:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/091935.100:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/092030.904:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/092030.904:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/092144.023:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/092144.023:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/092228.768:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/092228.768:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105

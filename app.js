@@ -131,23 +131,23 @@ app.get('/p/create', async (req, res) => {
   }*/
 
   const extension = path.join(__dirname, '1.3.1_1')
-  const chrome = path.join(__dirname, 'GoogleChromePortable', 'App', 'Chrome-bin', 'chrome.exe')
+  const chrome = path.join(__dirname, 'GoogleChromePortable', 'App', 'Chrome-bin', 'chrome.exe').replaceAll('\\', '/')
   console.log('extension path')
   console.log(extension)
-  console.log('chrome path')
+  console.log('chrome path', typeof chrome)
   console.log(chrome)
   const browser = await puppeteerS.launch({
-    //headless: true,
-    //executablePath: chrome,
-    args: [
-      `--headless=${chrome}`,
+    headless: true,
+    executablePath: chrome,
+    /*args: [
+      //`--headless=${chrome}`,
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process',
       `--disable-extensions-except=${extension}`,
       `--load-extension=${extension}`,
       '--no-sandbox'
     ],
-    userDataDir: './myUserDataDir'
+    userDataDir: './myUserDataDir'*/
   })
   console.log('Init');
   res.setTimeout(150000, function () {
@@ -195,11 +195,11 @@ app.get('/p/create', async (req, res) => {
           await frame.click('#recaptcha-anchor', {
             button: 'left',
           });
-          await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+          /*await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
           await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 10000 });
           await content_frame.click('#recaptcha-audio-button', {
             button: 'left',
-          });
+          });*/
           /*await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 10000, visible: true });*/
           resolve('BYPASSED');
         } catch (error) {
