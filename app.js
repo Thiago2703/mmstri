@@ -137,7 +137,7 @@ app.get('/p/create', async (req, res) => {
   console.log('chrome path')
   console.log(chrome)
   const browser = await puppeteerS.launch({
-    headless: false,
+    headless: true,
     executablePath: chrome,
     args: [
       //'--headless=chrome',
