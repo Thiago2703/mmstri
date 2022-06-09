@@ -131,11 +131,11 @@ app.get('/p/create', async (req, res) => {
   }
 
   const extension = path.join(__dirname, '1.3.1_0')
-  const chrome = path.join(__dirname, 'GoogleChromePortable', 'App', 'Chrome-bin', 'chrome.exe').replaceAll('\\', '/')
+  /*const chrome = path.join(__dirname, 'GoogleChromePortable', 'App', 'Chrome-bin', 'chrome.exe').replaceAll('\\', '/')
   console.log('extension path')
   console.log(extension)
   console.log('chrome path', typeof chrome)
-  console.log(chrome)
+  console.log(chrome)*/
   const browser = await puppeteerS.launch({
     headless: true,
     //executablePath: chrome,
