@@ -137,7 +137,7 @@ app.get('/p/create', async (req, res) => {
   console.log('chrome path')
   console.log(chrome)
   const browser = await puppeteerS.launch({
-    headless: true,
+    headless: false,
     executablePath: chrome,
     args: [
       //'--headless=chrome',
@@ -174,7 +174,7 @@ app.get('/p/create', async (req, res) => {
 
     //#PART 1
     await page.goto(`https://signup.heroku.com/`, { timeout: 45000, waitUntil: 'networkidle2' });
-    await delay(4000);
+    //await delay(4000000);
     //await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
     //await page.click('#onetrust-accept-btn-handler', { button: 'left' });
     await autoScroll(page);

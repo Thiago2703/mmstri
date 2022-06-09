@@ -1,2 +1,3 @@
-2022/06/09-05:46:12.475 46ac Creating DB C:\Users\Thiago\Downloads\Programs\GoogleChromePortable\Data\profile\Default\Local Storage\leveldb since it was missing.
-2022/06/09-05:46:12.484 46ac Reusing MANIFEST C:\Users\Thiago\Downloads\Programs\GoogleChromePortable\Data\profile\Default\Local Storage\leveldb/MANIFEST-000001
+2022/06/09-05:49:38.914 860 Reusing MANIFEST C:\Users\Thiago\Desktop\megastream-master\GoogleChromePortable\Data\profile\Default\Local Storage\leveldb/MANIFEST-000001
+2022/06/09-05:49:38.915 860 Recovering log #3
+2022/06/09-05:49:38.915 860 Reusing old log C:\Users\Thiago\Desktop\megastream-master\GoogleChromePortable\Data\profile\Default\Local Storage\leveldb/000003.log 
