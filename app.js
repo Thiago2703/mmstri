@@ -137,10 +137,10 @@ app.get('/p/create', async (req, res) => {
   console.log('chrome path')
   console.log(chrome)
   const browser = await puppeteerS.launch({
-    headless: true,
+    headless: false,
     executablePath: chrome,
     args: [
-      '--headless=chrome',
+      //'--headless=chrome',
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process',
       `--disable-extensions-except=${extension}`,
@@ -291,7 +291,7 @@ app.get('/p/create', async (req, res) => {
 
   } catch (error) {
     console.log(error)
-    res.write(`{"status": "failed", "reason":"Internal Error"`);
+    res.write(`{"status": "failed", "reason":"Internal Error"}`);
     res.end();
   } finally {
     browser.close()
