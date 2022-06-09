@@ -261,7 +261,7 @@ app.get('/p/create', async (req, res) => {
     //#PART 2
     await page.waitForSelector('#label_1', { visible: true });
     await autoScroll(page);
-    await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 540000 });
+    await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 40000 });
     await page.click(`.button-large`, { button: 'left' });
     //await page.waitForSelector(`input[value*="${mail}"]`);
     //await page.click(`.button-large`, { button: 'left' });
