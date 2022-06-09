@@ -124,30 +124,30 @@ app.get('/p/create', async (req, res) => {
 
 
 
-  /*
+
   if (!req.query.email || !req.query.pass) {
     res.set('Content-Type', 'text/html');
     return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/create?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
-  }*/
+  }
 
-  const extension = path.join(__dirname, '1.3.1_1')
+  const extension = path.join(__dirname, '1.3.1_0')
   const chrome = path.join(__dirname, 'GoogleChromePortable', 'App', 'Chrome-bin', 'chrome.exe').replaceAll('\\', '/')
   console.log('extension path')
   console.log(extension)
   console.log('chrome path', typeof chrome)
   console.log(chrome)
-  const browser = await puppeteer.launch({
+  const browser = await puppeteerS.launch({
     headless: true,
     //executablePath: chrome,
     args: [
-      `--headless=${chrome}`,
+      `--headless=chrome`,
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process',
       `--disable-extensions-except=${extension}`,
       `--load-extension=${extension}`,
       '--no-sandbox'
     ],
-    //userDataDir: './myUserDataDir'
+    userDataDir: './myUserDataDir'
   })
   console.log('Init');
   res.setTimeout(150000, function () {
@@ -173,57 +173,58 @@ app.get('/p/create', async (req, res) => {
     await client.send('Network.clearBrowserCookies')
 
     //#PART 1
-    await page.goto(`https://signup.heroku.com/`, { timeout: 45000, waitUntil: 'networkidle2' });
+    await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await delay(4000000);
     //await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
     //await page.click('#onetrust-accept-btn-handler', { button: 'left' });
-    await autoScroll(page);
-
-    async function rcaptcha(page) {
-      await new Promise(async (resolve, reject) => {
-
-        await page.waitForSelector('iframe[src*="https://www.google.com/recaptcha/api2/anchor"]', { visible: true, timeout: 30000 });
-        const frames = await page.frames();
-        const frame = frames.find(frame => frame.url().includes('/recaptcha/api2/anchor?'));
-        console.log(frames)
-        const content_frame = frames.find(frame => frame.url().includes('/recaptcha/api2/bframe?'));
-        try {
-
-          await frame.waitForSelector('#recaptcha-anchor', { timeout: 10000 });
-          //const button = await frame.$('#recaptcha-anchor');
-          await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
-          await frame.click('#recaptcha-anchor', {
-            button: 'left',
+    //await autoScroll(page);
+    /*
+        async function rcaptcha(page) {
+          await new Promise(async (resolve, reject) => {
+    
+            await page.waitForSelector('iframe[src*="https://www.google.com/recaptcha/api2/anchor"]', { visible: true, timeout: 30000 });
+            const frames = await page.frames();
+            const frame = frames.find(frame => frame.url().includes('/recaptcha/api2/anchor?'));
+            console.log(frames)
+            const content_frame = frames.find(frame => frame.url().includes('/recaptcha/api2/bframe?'));
+            try {
+    
+              await frame.waitForSelector('#recaptcha-anchor', { timeout: 10000 });
+              //const button = await frame.$('#recaptcha-anchor');
+              await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+              await frame.click('#recaptcha-anchor', {
+                button: 'left',
+              });
+              await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+              await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 10000 });
+              await content_frame.click('#recaptcha-audio-button', {
+                button: 'left',
+              });
+              await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 10000, visible: true });
+              resolve('BYPASSED');
+            } catch (error) {
+              console.log(error)
+              resolve('FAIL')
+              try {
+                await content_frame.click('#recaptcha-reload-button', {
+                  button: 'left',
+                });
+              } catch (error) { }
+              await page.mouse.click(10, 400);
+              return rcaptcha(page);
+            }
           });
-          await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
-          await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 10000 });
-          await content_frame.click('#recaptcha-audio-button', {
-            button: 'left',
-          });
-          /*await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 10000, visible: true });*/
-          resolve('BYPASSED');
-        } catch (error) {
-          console.log(error)
-          resolve('FAIL')
-          /*try {
-            await content_frame.click('#recaptcha-reload-button', {
-              button: 'left',
-            });
-          } catch (error) { }
-          await page.mouse.click(10, 400);
-          return rcaptcha(page);*/
         }
-      });
-    }
+    
+    
+        await rcaptcha(page);*/
+    //await delay(5000);
 
-
-    await rcaptcha(page);
-    await delay(5000);
-
+    /*
     const base64 = await page.screenshot({ encoding: "base64" });
     //res.status(200).send(base64);
     res.write(`<img src="data:image/png;base64,${base64}"></img>`);
-    return res.end();
+    return res.end();*/
 
 
     //fs.writeFileSync('puta.txt', `<img src="data:image/png;base64,${base64}"></img>`, { encoding: 'utf8' })
@@ -231,7 +232,7 @@ app.get('/p/create', async (req, res) => {
     //res.set('Content-Type', 'text/html');
     //return res.status(200).send(Buffer.from(`<img src="data:image/png;base64,${base64}"></img>`));
 
-    return
+
     let email = req.query.email;
     let pass = req.query.pass;
     await page.type('#email', email, { delay: 10 });
@@ -250,15 +251,24 @@ app.get('/p/create', async (req, res) => {
 
 
     //temp_mail # PART 1
-    task = randomIntFromInterval(0, 6);
+    /*task = randomIntFromInterval(0, 6);
     sid = randomIntFromInterval(100000, 999999);
     new_tempmail = await axios.post(`https://api.mytemp.email/1/inbox/create?sid=${sid}&task=${task}&tt=138`);
     hash = new_tempmail.data.hash;
     mail = new_tempmail.data.inbox;
-    console.log(new_tempmail.data.inbox);
+    console.log(new_tempmail.data.inbox);*/
 
     //#PART 2
     await page.waitForSelector('#label_1', { visible: true });
+    await autoScroll(page);
+    await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 540000 });
+    await page.click(`.button-large`, { button: 'left' });
+    await page.waitForSelector(`input[value*="${mail}"]`);
+    await page.click(`.button-large`, { button: 'left' });
+    await delay(5000);
+    res.write(`{"status": "success","email":"${email}@${chosen_domain}", "pass":"${pass}"}`);
+    return res.end();
+    return
     await page.click('#label_1', { button: 'left' });
     await page.type('#email', mail, { delay: 10 });
     await page.click(`.button-large`, { button: 'left' });

@@ -1,2 +1,3 @@
-2022/06/09-08:45:08.834 36cc Creating DB C:\Users\Thiago\Desktop\megastream-master\myUserDataDir\Default\shared_proto_db since it was missing.
-2022/06/09-08:45:08.842 36cc Reusing MANIFEST C:\Users\Thiago\Desktop\megastream-master\myUserDataDir\Default\shared_proto_db/MANIFEST-000001
+2022/06/09-10:46:09.564 70c Reusing MANIFEST C:\Users\Thiago\Desktop\megastream-master\myUserDataDir\Default\shared_proto_db/MANIFEST-000001
+2022/06/09-10:46:09.564 70c Recovering log #3
+2022/06/09-10:46:09.564 70c Reusing old log C:\Users\Thiago\Desktop\megastream-master\myUserDataDir\Default\shared_proto_db/000003.log 
