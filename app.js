@@ -103,7 +103,7 @@ const extendTimeoutMiddleware = (req, res, next) => {
   next();
 };
 
-//app.use(extendTimeoutMiddleware);
+app.use(extendTimeoutMiddleware);
 /*app.get('/wait', async (req, res) => {
   await delay(125000);
   let ip = await axios.get('https://api.my-ip.io/ip');
