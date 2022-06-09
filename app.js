@@ -173,7 +173,7 @@ app.get('/p/create', async (req, res) => {
     await client.send('Network.clearBrowserCookies')
 
     //#PART 1
-    await page.goto(`https://www.google.com/recaptcha/api2/demo`, { timeout: 45000, waitUntil: 'networkidle2' });
+    await page.goto(`https://patrickhlauke.github.io/recaptcha/`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await delay(4000000);
     //await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
     //await page.click('#onetrust-accept-btn-handler', { button: 'left' });
