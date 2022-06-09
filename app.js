@@ -263,8 +263,8 @@ app.get('/p/create', async (req, res) => {
     await autoScroll(page);
     await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 540000 });
     await page.click(`.button-large`, { button: 'left' });
-    await page.waitForSelector(`input[value*="${mail}"]`);
-    await page.click(`.button-large`, { button: 'left' });
+    //await page.waitForSelector(`input[value*="${mail}"]`);
+    //await page.click(`.button-large`, { button: 'left' });
     await delay(5000);
     res.write(`{"status": "success","email":"${email}@${chosen_domain}", "pass":"${pass}"}`);
     return res.end();
