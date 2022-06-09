@@ -175,8 +175,8 @@ app.get('/p/create', async (req, res) => {
     //#PART 1
     await page.goto(`https://service.mail.com/registration.html?edition=int&lang=en&#.1258-header-signup2-1`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await delay(4000000);
-    await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
-    await page.click('#onetrust-accept-btn-handler', { button: 'left' });
+    //await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
+    //await page.click('#onetrust-accept-btn-handler', { button: 'left' });
     await autoScroll(page);
 
     async function rcaptcha(page) {
