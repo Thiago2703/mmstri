@@ -137,10 +137,10 @@ app.get('/p/create', async (req, res) => {
   console.log('chrome path')
   console.log(chrome)
   const browser = await puppeteerS.launch({
-    headless: true,
-    executablePath: chrome,
+    //headless: true,
+    //executablePath: chrome,
     args: [
-      //`--headless=${chrome}`,
+      `--headless=${chrome}`,
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process',
       `--disable-extensions-except=${extension}`,
