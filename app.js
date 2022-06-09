@@ -132,7 +132,10 @@ app.get('/p/create', async (req, res) => {
 
   const extension = path.join(__dirname, '1.3.1_1')
   const chrome = path.join(__dirname, 'GoogleChromePortable', 'App', 'Chrome-bin', 'chrome.exe')
-
+  console.log('extension path')
+  console.log(extension)
+  console.log('chrome path')
+  console.log(chrome)
   const browser = await puppeteerS.launch({
     headless: false,
     executablePath: chrome,
@@ -171,9 +174,9 @@ app.get('/p/create', async (req, res) => {
 
     //#PART 1
     await page.goto(`https://signup.heroku.com/`, { timeout: 45000, waitUntil: 'networkidle2' });
-    await delay(1534000);
-    await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
-    await page.click('#onetrust-accept-btn-handler', { button: 'left' });
+    await delay(4000);
+    //await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
+    //await page.click('#onetrust-accept-btn-handler', { button: 'left' });
     await autoScroll(page);
 
     async function rcaptcha(page) {
