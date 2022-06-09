@@ -136,18 +136,18 @@ app.get('/p/create', async (req, res) => {
   console.log(extension)
   console.log('chrome path', typeof chrome)
   console.log(chrome)
-  const browser = await puppeteerS.launch({
+  const browser = await puppeteer.launch({
     headless: true,
     executablePath: chrome,
-    /*args: [
+    args: [
       //`--headless=${chrome}`,
-      '--disable-web-security',
+      /*'--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process',
       `--disable-extensions-except=${extension}`,
-      `--load-extension=${extension}`,
+      `--load-extension=${extension}`,*/
       '--no-sandbox'
     ],
-    userDataDir: './myUserDataDir'*/
+    //userDataDir: './myUserDataDir'
   })
   console.log('Init');
   res.setTimeout(150000, function () {
