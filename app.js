@@ -5,7 +5,7 @@ const express = require('express');
 const delay = require('delay');
 const axios = require('axios');
 const path = require('path');
-
+const fs = require('fs');
 var host = process.env.HOST || '0.0.0.0';
 var port = process.env.PORT || 8000;
 
@@ -103,7 +103,7 @@ const extendTimeoutMiddleware = (req, res, next) => {
   next();
 };
 
-app.use(extendTimeoutMiddleware);
+//app.use(extendTimeoutMiddleware);
 /*app.get('/wait', async (req, res) => {
   await delay(125000);
   let ip = await axios.get('https://api.my-ip.io/ip');
@@ -137,10 +137,10 @@ app.get('/p/create', async (req, res) => {
   console.log('chrome path')
   console.log(chrome)
   const browser = await puppeteerS.launch({
-    headless: false,
-    executablePath: chrome,
+    //headless: false,
+    //executablePath: chrome,
     args: [
-      //'--headless=chrome',
+      `--headless=${chrome}`,
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process',
       `--disable-extensions-except=${extension}`,
@@ -175,8 +175,8 @@ app.get('/p/create', async (req, res) => {
     //#PART 1
     await page.goto(`https://signup.heroku.com/`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await delay(4000000);
-    //await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
-    //await page.click('#onetrust-accept-btn-handler', { button: 'left' });
+    await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
+    await page.click('#onetrust-accept-btn-handler', { button: 'left' });
     await autoScroll(page);
 
     async function rcaptcha(page) {
@@ -185,6 +185,7 @@ app.get('/p/create', async (req, res) => {
         await page.waitForSelector('iframe[src*="https://www.google.com/recaptcha/api2/anchor"]', { visible: true, timeout: 30000 });
         const frames = await page.frames();
         const frame = frames.find(frame => frame.url().includes('/recaptcha/api2/anchor?'));
+        console.log(frames)
         const content_frame = frames.find(frame => frame.url().includes('/recaptcha/api2/bframe?'));
         try {
 
@@ -195,14 +196,15 @@ app.get('/p/create', async (req, res) => {
             button: 'left',
           });
           await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
-          await content_frame.waitForSelector('.help-button-holder', { visible: true, timeout: 10000 });
-          await content_frame.click('.help-button-holder', {
+          await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 10000 });
+          await content_frame.click('#recaptcha-audio-button', {
             button: 'left',
           });
           /*await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 10000, visible: true });*/
           resolve('BYPASSED');
         } catch (error) {
           console.log(error)
+          resolve('FAIL')
           /*try {
             await content_frame.click('#recaptcha-reload-button', {
               button: 'left',
@@ -213,18 +215,23 @@ app.get('/p/create', async (req, res) => {
         }
       });
     }
-    await delay(5000);
+
+
     await rcaptcha(page);
-    await delay(15000);
+    await delay(5000);
+
     const base64 = await page.screenshot({ encoding: "base64" });
     //res.status(200).send(base64);
     res.write(`<img src="data:image/png;base64,${base64}"></img>`);
     return res.end();
 
+
+    //fs.writeFileSync('puta.txt', `<img src="data:image/png;base64,${base64}"></img>`, { encoding: 'utf8' })
+
     //res.set('Content-Type', 'text/html');
     //return res.status(200).send(Buffer.from(`<img src="data:image/png;base64,${base64}"></img>`));
 
-
+    return
     let email = req.query.email;
     let pass = req.query.pass;
     await page.type('#email', email, { delay: 10 });

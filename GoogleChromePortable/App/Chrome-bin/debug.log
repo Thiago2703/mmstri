@@ -8,3 +8,18 @@
 [0609/073750.053:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
 [0609/073750.053:WARNING:stun_port.cc(453)] Port[233aa200:0:1:0:local:Net[any:0.0.0.x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
 [0609/073750.053:WARNING:stun_port.cc(453)] Port[233a9f00:0:1:0:local:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/080347.949:WARNING:media_session.cc(939)] RED codec red is missing an associated payload type.
+[0609/080348.284:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/080348.284:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/080348.293:WARNING:stun_port.cc(453)] Port[4c1f0d00:0:1:0:local:Net[any:0.0.0.x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/080348.293:WARNING:stun_port.cc(453)] Port[4c1f0a00:0:1:0:local:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/080428.606:WARNING:media_session.cc(939)] RED codec red is missing an associated payload type.
+[0609/080428.925:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/080428.925:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/080428.925:WARNING:stun_port.cc(453)] Port[5040b800:0:1:0:local:Net[any:0.0.0.x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/080428.925:WARNING:stun_port.cc(453)] Port[5040b500:0:1:0:local:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/082813.700:WARNING:media_session.cc(939)] RED codec red is missing an associated payload type.
+[0609/082814.055:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/082814.055:ERROR:socket_manager.cc(127)] Failed to resolve address for stun.services.mozilla.com., errorcode: -105
+[0609/082814.055:WARNING:stun_port.cc(453)] Port[25c0bb00:0:1:0:local:Net[any:0.0.0.x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[0609/082814.055:WARNING:stun_port.cc(453)] Port[25c0b800:0:1:0:local:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
