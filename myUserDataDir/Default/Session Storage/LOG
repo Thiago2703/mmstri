@@ -1,2 +1,3 @@
-2022/06/10-03:15:49.708 57bc Creating DB C:\Users\Thiago\Desktop\megastream-master\myUserDataDir\Default\Session Storage since it was missing.
-2022/06/10-03:15:49.721 57bc Reusing MANIFEST C:\Users\Thiago\Desktop\megastream-master\myUserDataDir\Default\Session Storage/MANIFEST-000001
+2022/06/10-05:42:18.225 120c Reusing MANIFEST C:\Users\Thiago\Desktop\megastream-master\myUserDataDir\Default\Session Storage/MANIFEST-000001
+2022/06/10-05:42:18.230 120c Recovering log #3
+2022/06/10-05:42:18.233 120c Reusing old log C:\Users\Thiago\Desktop\megastream-master\myUserDataDir\Default\Session Storage/000003.log 

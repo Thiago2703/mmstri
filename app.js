@@ -132,7 +132,7 @@ app.get('/p/create', async (req, res) => {
     return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/create?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
   }
 
-  const extension = path.join(__dirname, '1.3.1_0')
+  const extension = path.join(__dirname, '1.3.1_1')
   /*const chrome = path.join(__dirname, 'GoogleChromePortable', 'App', 'Chrome-bin', 'chrome.exe').replaceAll('\\', '/')
   console.log('extension path')
   console.log(extension)
@@ -145,12 +145,12 @@ app.get('/p/create', async (req, res) => {
       `--headless=chrome`,
       //'--disable-web-security',
       //'--disable-features=IsolateOrigins,site-per-process',
-      //`--disable-extensions-except=${extension}`,
-      //`--load-extension=${extension}`,
+      `--disable-extensions-except=${extension}`,
+      `--load-extension=${extension}`,
       '--no-sandbox'
     ],
     ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
-    //userDataDir: './myLocalDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
+    userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
   })
   console.log('Init');
   res.setTimeout(150000, function () {
@@ -180,7 +180,7 @@ app.get('/p/create', async (req, res) => {
     //#PART 1
     await page.goto(`https://signup.heroku.com/`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await page.goto(`https://antoinevastel.com/bots/`, { timeout: 45000, waitUntil: 'networkidle2' });
-    //await delay(4000000);
+    await delay(4000000);
     await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
     await page.click('#onetrust-accept-btn-handler', { button: 'left' });
     await autoScroll(page);
@@ -201,11 +201,12 @@ app.get('/p/create', async (req, res) => {
           await frame.click('#recaptcha-anchor', {
             button: 'left',
           });
+          /*
           await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
           await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 30000 });
           await content_frame.click('#recaptcha-audio-button', {
             button: 'left',
-          });
+          });*/
           //await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 10000, visible: true });
           resolve('BYPASSED');
         } catch (error) {
