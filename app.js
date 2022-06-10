@@ -182,7 +182,7 @@ app.get('/p/create', async (req, res) => {
     //await page.goto(`https://antoinevastel.com/bots/`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await delay(4000000);
     try {
-      await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
+      await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true, timeout: 20000 });
       await page.click('#onetrust-accept-btn-handler', { button: 'left' });
     } catch (error) { }
 
@@ -210,10 +210,10 @@ app.get('/p/create', async (req, res) => {
     await content_frame.click('.help-button-holder', {
       button: 'left',
     });
-    await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 15000, visible: true });
+    //await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 15000, visible: true });
 
 
-    await delay(6000);
+    await delay(10000);
     const base64 = await page.screenshot({ encoding: "base64" });
     res.write(`<img src="data:image/png;base64,${base64}"></img>`);
     return res.end();
