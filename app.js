@@ -189,29 +189,34 @@ app.get('/p/create', async (req, res) => {
     await autoScroll(page);
 
 
-    await page.waitForSelector('iframe[src*="https://www.google.com/recaptcha/api2/anchor"]', { visible: true, timeout: 30000 });
-    const frames = await page.frames();
-    const frame = frames.find(frame => frame.url().includes('/recaptcha/api2/anchor?'));
-    //console.log(frames)
-    const content_frame = frames.find(frame => frame.url().includes('/recaptcha/api2/bframe?'));
+    try {
 
-    await frame.waitForSelector('#recaptcha-anchor', { timeout: 10000 });
-    //const button = await frame.$('#recaptcha-anchor');
-    await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
-    await frame.click('#recaptcha-anchor', {
-      button: 'left',
-    });
-    await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
-    /* await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 30000 });
-     await content_frame.click('#recaptcha-audio-button', {
-       button: 'left',
-     });*/
-    await content_frame.waitForSelector('.help-button-holder', { visible: true, timeout: 10000 });
-    await content_frame.click('.help-button-holder', {
-      button: 'left',
-    });
-    //await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 15000, visible: true });
+      await page.waitForSelector('iframe[src*="https://www.google.com/recaptcha/api2/anchor"]', { visible: true, timeout: 30000 });
+      const frames = await page.frames();
+      const frame = frames.find(frame => frame.url().includes('/recaptcha/api2/anchor?'));
+      //console.log(frames)
+      const content_frame = frames.find(frame => frame.url().includes('/recaptcha/api2/bframe?'));
 
+      await frame.waitForSelector('#recaptcha-anchor', { timeout: 10000 });
+      //const button = await frame.$('#recaptcha-anchor');
+      await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+      await frame.click('#recaptcha-anchor', {
+        button: 'left',
+      });
+      await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+      /* await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 30000 });
+       await content_frame.click('#recaptcha-audio-button', {
+         button: 'left',
+       });*/
+      await content_frame.waitForSelector('.help-button-holder', { visible: true, timeout: 10000 });
+      await content_frame.click('.help-button-holder', {
+        button: 'left',
+      });
+      //await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 15000, visible: true });
+
+    } catch (error) {
+      console.log(error)
+    }
 
     await delay(10000);
     const base64 = await page.screenshot({ encoding: "base64" });
