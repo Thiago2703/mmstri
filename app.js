@@ -140,17 +140,17 @@ app.get('/p/create', async (req, res) => {
   console.log(chrome)*/
   const browser = await puppeteerS.launch({
     headless: true,
-    //executablePath: chrome,
+    //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     args: [
       `--headless=chrome`,
-      '--disable-web-security',
-      '--disable-features=IsolateOrigins,site-per-process',
-      `--disable-extensions-except=${extension}`,
-      `--load-extension=${extension}`,
+      //'--disable-web-security',
+      //'--disable-features=IsolateOrigins,site-per-process',
+      //`--disable-extensions-except=${extension}`,
+      //`--load-extension=${extension}`,
       '--no-sandbox'
     ],
     ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
-    userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
+    //userDataDir: './myLocalDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
   })
   console.log('Init');
   res.setTimeout(150000, function () {
@@ -178,53 +178,56 @@ app.get('/p/create', async (req, res) => {
     await client.send('Network.clearBrowserCookies')
 
     //#PART 1
-    await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
+    await page.goto(`https://signup.heroku.com/`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await page.goto(`https://antoinevastel.com/bots/`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await delay(4000000);
     //await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
     //await page.click('#onetrust-accept-btn-handler', { button: 'left' });
-    //await autoScroll(page);
-    /*
-        async function rcaptcha(page) {
-          await new Promise(async (resolve, reject) => {
-    
-            await page.waitForSelector('iframe[src*="https://www.google.com/recaptcha/api2/anchor"]', { visible: true, timeout: 30000 });
-            const frames = await page.frames();
-            const frame = frames.find(frame => frame.url().includes('/recaptcha/api2/anchor?'));
-            console.log(frames)
-            const content_frame = frames.find(frame => frame.url().includes('/recaptcha/api2/bframe?'));
-            try {
-    
-              await frame.waitForSelector('#recaptcha-anchor', { timeout: 10000 });
-              //const button = await frame.$('#recaptcha-anchor');
-              await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
-              await frame.click('#recaptcha-anchor', {
-                button: 'left',
-              });
-              await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
-              await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 10000 });
-              await content_frame.click('#recaptcha-audio-button', {
-                button: 'left',
-              });
-              await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 10000, visible: true });
-              resolve('BYPASSED');
-            } catch (error) {
-              console.log(error)
-              resolve('FAIL')
-              try {
-                await content_frame.click('#recaptcha-reload-button', {
-                  button: 'left',
-                });
-              } catch (error) { }
-              await page.mouse.click(10, 400);
-              return rcaptcha(page);
-            }
+    await autoScroll(page);
+
+    async function rcaptcha(page) {
+      await new Promise(async (resolve, reject) => {
+
+        await page.waitForSelector('iframe[src*="https://www.google.com/recaptcha/api2/anchor"]', { visible: true, timeout: 30000 });
+        const frames = await page.frames();
+        const frame = frames.find(frame => frame.url().includes('/recaptcha/api2/anchor?'));
+        //console.log(frames)
+        const content_frame = frames.find(frame => frame.url().includes('/recaptcha/api2/bframe?'));
+        try {
+
+          await frame.waitForSelector('#recaptcha-anchor', { timeout: 10000 });
+          //const button = await frame.$('#recaptcha-anchor');
+          await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+          await frame.click('#recaptcha-anchor', {
+            button: 'left',
           });
+          await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+          await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 30000 });
+          await content_frame.click('#recaptcha-audio-button', {
+            button: 'left',
+          });
+          //await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 10000, visible: true });
+          resolve('BYPASSED');
+        } catch (error) {
+          console.log(error)
+          resolve('FAIL')
+          try {
+            await content_frame.click('#recaptcha-reload-button', {
+              button: 'left',
+            });
+          } catch (error) { }
+          await page.mouse.click(10, 400);
+          return rcaptcha(page);
         }
-    
-    
-        await rcaptcha(page);*/
-    //await delay(5000);
+      });
+    }
+
+    await delay(6000);
+    await rcaptcha(page);
+    await delay(6000);
+    const base64 = await page.screenshot({ encoding: "base64" });
+    res.write(`<img src="data:image/png;base64,${base64}"></img>`);
+    return res.end();
 
     /*
     const base64 = await page.screenshot({ encoding: "base64" });
