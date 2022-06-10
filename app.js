@@ -201,12 +201,11 @@ app.get('/p/create', async (req, res) => {
           await frame.click('#recaptcha-anchor', {
             button: 'left',
           });
-          /*
           await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
           await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 30000 });
           await content_frame.click('#recaptcha-audio-button', {
             button: 'left',
-          });*/
+          });
           //await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 10000, visible: true });
           resolve('BYPASSED');
         } catch (error) {
