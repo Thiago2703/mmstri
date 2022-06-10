@@ -47,6 +47,7 @@ async function autoScroll(page) {
  */
 const { createError, log } = require('./helpers');
 const middlewares = require('./middleware');
+const { del } = require('express/lib/application');
 
 /**
  * bootstrap express app
@@ -89,9 +90,9 @@ const extendTimeoutMiddleware = (req, res, next) => {
       // If the response hasn't finished and hasn't sent any data back....
       if (!isFinished && !isDataSent) {
         // Need to write the status code/headers if they haven't been sent yet.
-        if (!res.headersSent) {
+        /*if (!res.headersSent) {
           res.writeHead(202, { 'Content-Type': 'text/html' });
-        }
+        }*/
 
         res.write(space);
 
@@ -126,7 +127,7 @@ app.get('/p/create', async (req, res) => {
 
 
 
-
+  res.writeHead(202, { 'Content-Type': 'text/html' });
   if (!req.query.email || !req.query.pass) {
     res.set('Content-Type', 'text/html');
     return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/create?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
@@ -150,7 +151,7 @@ app.get('/p/create', async (req, res) => {
       '--no-sandbox'
     ],
     ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
-    userDataDir: './myLocalDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
+    userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
   })
   console.log('Init');
   res.setTimeout(150000, function () {
@@ -194,21 +195,31 @@ app.get('/p/create', async (req, res) => {
       await page.waitForSelector('iframe[src*="https://www.google.com/recaptcha/api2/anchor"]', { visible: true, timeout: 30000 });
       const frames = await page.frames();
       const frame = frames.find(frame => frame.url().includes('/recaptcha/api2/anchor?'));
-      //console.log(frames)
       const content_frame = frames.find(frame => frame.url().includes('/recaptcha/api2/bframe?'));
 
-      await frame.waitForSelector('#recaptcha-anchor', { timeout: 10000 });
+      await frame.waitForSelector('#recaptcha-anchor', { visible: true, timeout: 15000 });
+      //await delay(2000);
       //const button = await frame.$('#recaptcha-anchor');
       await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+      await delay(2000);
       await frame.click('#recaptcha-anchor', {
         button: 'left',
       });
-      await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+
+
+      //SCREENSHOTA
+      await delay(5000);
+      const base64_1 = await page.screenshot({ encoding: "base64" });
+      res.write(`<img src="data:image/png;base64,${base64_1}"></img><br>`);
+
+
       /* await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 30000 });
        await content_frame.click('#recaptcha-audio-button', {
          button: 'left',
        });*/
       await content_frame.waitForSelector('.help-button-holder', { visible: true, timeout: 25000 });
+      await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+      await delay(15);
       await content_frame.click('.help-button-holder', {
         button: 'left',
       });
@@ -219,9 +230,9 @@ app.get('/p/create', async (req, res) => {
       console.log(error)
     }
 
-    await delay(10000);
+    await delay(8000);
     const base64 = await page.screenshot({ encoding: "base64" });
-    res.write(`<img src="data:image/png;base64,${base64}"></img>`);
+    res.write(`<img src="data:image/png;base64,${base64}"></img><br>`);
     return res.end();
 
     /*
