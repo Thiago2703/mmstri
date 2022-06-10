@@ -143,11 +143,11 @@ app.get('/p/create', async (req, res) => {
     headless: true,
     //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     args: [
-      //`--headless=chrome`,
-      //'--disable-web-security',
-      //'--disable-features=IsolateOrigins,site-per-process',
-      //`--disable-extensions-except=${extension}`,
-      //`--load-extension=${extension}`,
+      `--headless=chrome`,
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins,site-per-process',
+      `--disable-extensions-except=${extension}`,
+      `--load-extension=${extension}`,
       '--no-sandbox'
     ],
     ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
