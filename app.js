@@ -150,7 +150,7 @@ app.get('/p/create', async (req, res) => {
       '--no-sandbox'
     ],
     ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
-    userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
+    userDataDir: './myLocalDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
   })
   console.log('Init');
   res.setTimeout(150000, function () {
@@ -208,10 +208,11 @@ app.get('/p/create', async (req, res) => {
        await content_frame.click('#recaptcha-audio-button', {
          button: 'left',
        });*/
-      await content_frame.waitForSelector('.help-button-holder', { visible: true, timeout: 10000 });
+      await content_frame.waitForSelector('.help-button-holder', { visible: true, timeout: 25000 });
       await content_frame.click('.help-button-holder', {
         button: 'left',
       });
+      console.log('solve button clicked');
       await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 25000, visible: true });
 
     } catch (error) {
