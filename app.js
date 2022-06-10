@@ -144,7 +144,7 @@ app.get('/p/create', async (req, res) => {
     //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     args: [
       //`--headless=chrome`,
-      '--disable-web-security',
+      //'--disable-web-security',
       //'--disable-features=IsolateOrigins,site-per-process',
       //`--disable-extensions-except=${extension}`,
       //`--load-extension=${extension}`,
