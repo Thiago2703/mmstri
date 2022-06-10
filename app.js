@@ -143,15 +143,15 @@ app.get('/p/create', async (req, res) => {
     headless: true,
     //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     args: [
-      `--headless=chrome`,
+      //`--headless=chrome`,
       //'--disable-web-security',
       //'--disable-features=IsolateOrigins,site-per-process',
-      `--disable-extensions-except=${extension}`,
-      `--load-extension=${extension}`,
+      //`--disable-extensions-except=${extension}`,
+      //`--load-extension=${extension}`,
       '--no-sandbox'
     ],
     ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
-    userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
+    //userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
   })
   console.log('Init');
   res.setTimeout(150000, function () {
@@ -183,7 +183,10 @@ app.get('/p/create', async (req, res) => {
     //#PART 1
     await page.goto(`https://service.mail.com/registration.html?edition=int&lang=en&#.1258-header-signup2-1`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await page.goto(`https://antoinevastel.com/bots/`, { timeout: 45000, waitUntil: 'networkidle2' });
-    //await delay(4000000);
+    await delay(10000);
+    await page.mouse.click(460, 477)
+    await page.mouse.click(460, 477)
+    await delay(10000);
     /*try {
       await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true, timeout: 20000 });
       await page.click('#onetrust-accept-btn-handler', { button: 'left' });
