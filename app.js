@@ -212,7 +212,7 @@ app.get('/p/create', async (req, res) => {
       await content_frame.click('.help-button-holder', {
         button: 'left',
       });
-      //await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 15000, visible: true });
+      await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 25000, visible: true });
 
     } catch (error) {
       console.log(error)
