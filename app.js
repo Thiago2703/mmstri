@@ -160,10 +160,12 @@ app.get('/p/create', async (req, res) => {
     res.sendStatus(408);
   });
   req.on('close', () => {
+    console.log('browser closed')
     browser.close()
     return res.end();
   });
   req.on('end', () => {
+    console.log('browser closed');
     browser.close()
     return res.end();
   });
@@ -224,7 +226,7 @@ app.get('/p/create', async (req, res) => {
         button: 'left',
       });
       console.log('solve button clicked');
-      await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 25000, visible: true });
+      await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 25000, visible: true })
 
     } catch (error) {
       console.log(error)
@@ -326,6 +328,7 @@ app.get('/p/create', async (req, res) => {
     res.write(`{"status": "failed", "reason":"Internal Error"}`);
     res.end();
   } finally {
+    console.log('browser closed')
     browser.close()
   }
 
