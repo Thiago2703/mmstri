@@ -145,8 +145,8 @@ app.get('/p/create', async (req, res) => {
     args: [
       `--headless=chrome`,
       '--disk-cache-size=0',
-      //'--disable-web-security',
-      //'--disable-features=IsolateOrigins,site-per-process',
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins,site-per-process',
       `--disable-extensions-except=${extension}`,
       `--load-extension=${extension}`,
       '--no-sandbox'
