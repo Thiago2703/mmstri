@@ -142,6 +142,7 @@ app.get('/p/create', async (req, res) => {
   const browser = await puppeteerS.launch({
     headless: true,
     //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
+    ignoreDefaultArgs: true,
     args: [
       `--headless=chrome`,
       '--disable-web-security',
@@ -150,7 +151,7 @@ app.get('/p/create', async (req, res) => {
       `--load-extension=${extension}`,
       '--no-sandbox'
     ],
-    ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
+    //ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
     //userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
   })
   console.log('Init');
