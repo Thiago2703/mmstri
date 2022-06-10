@@ -6,6 +6,8 @@ const delay = require('delay');
 const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
+var UA = require('user-agents');
+
 var host = process.env.HOST || '0.0.0.0';
 var port = process.env.PORT || 8000;
 
@@ -147,6 +149,7 @@ app.get('/p/create', async (req, res) => {
       `--load-extension=${extension}`,
       '--no-sandbox'
     ],
+    ignoreDefaultArgs: ["--enable-automation"],
     userDataDir: './myUserDataDir'
   })
   console.log('Init');
@@ -168,12 +171,15 @@ app.get('/p/create', async (req, res) => {
 
     const context = await browser.createIncognitoBrowserContext();
     const page = await context.newPage();
+    const userAgent = new UA();
+    await page.setUserAgent(userAgent.toString())
     await page.setCacheEnabled(false);
     const client = await page.target().createCDPSession()
     await client.send('Network.clearBrowserCookies')
 
     //#PART 1
     await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
+    //await page.goto(`https://antoinevastel.com/bots/`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await delay(4000000);
     //await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true });
     //await page.click('#onetrust-accept-btn-handler', { button: 'left' });
