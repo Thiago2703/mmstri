@@ -202,11 +202,15 @@ app.get('/p/create', async (req, res) => {
             button: 'left',
           });
           await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
-          await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 30000 });
-          await content_frame.click('#recaptcha-audio-button', {
+          /* await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 30000 });
+           await content_frame.click('#recaptcha-audio-button', {
+             button: 'left',
+           });*/
+          await content_frame.waitForSelector('.help-button-holder', { visible: true, timeout: 10000 });
+          await content_frame.click('.help-button-holder', {
             button: 'left',
           });
-          //await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 10000, visible: true });
+          await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 15000, visible: true });
           resolve('BYPASSED');
         } catch (error) {
           console.log(error)
