@@ -150,7 +150,7 @@ app.get('/p/create', async (req, res) => {
       '--no-sandbox'
     ],
     ignoreDefaultArgs: ["--enable-automation"],
-    userDataDir: './myUserDataDir'
+    userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
   })
   console.log('Init');
   res.setTimeout(150000, function () {
