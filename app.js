@@ -181,7 +181,17 @@ app.get('/p/create', async (req, res) => {
     await client.send('Network.clearBrowserCookies')
 
     //#PART 1
-    await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
+    await page.goto(`https://dashboard.hcaptcha.com/signup?type=accessibility`, { timeout: 45000, waitUntil: 'networkidle2' });
+    await delay(5000);
+    await page.type('#email', 'rafaeltiburcio2349@protonmail.com', { delay: 10 });
+    await page.click('button', {
+      button: 'left',
+    });
+    await delay(5000);
+    const base64 = await page.screenshot({ encoding: "base64" });
+    res.write(`<img src="data:image/png;base64,${base64}"></img><br>`);
+    return res.end();
+
     //await page.goto(`https://antoinevastel.com/bots/`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await delay(4000000);
     // try {
