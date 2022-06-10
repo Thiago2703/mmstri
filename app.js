@@ -142,17 +142,17 @@ app.get('/p/create', async (req, res) => {
   const browser = await puppeteerS.launch({
     headless: true,
     //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
-    ignoreDefaultArgs: true,
     args: [
       `--headless=chrome`,
+      '--disk-cache-size=0',
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process',
       `--disable-extensions-except=${extension}`,
       `--load-extension=${extension}`,
       '--no-sandbox'
     ],
-    //ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
-    //userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
+    ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
+    userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
   })
   console.log('Init');
   res.setTimeout(150000, function () {
@@ -178,8 +178,9 @@ app.get('/p/create', async (req, res) => {
     const userAgent = new UA();
     await page.setUserAgent(userAgent.toString())
     await page.setCacheEnabled(false);
-    const client = await page.target().createCDPSession()
-    await client.send('Network.clearBrowserCookies')
+    const client = await page.target().createCDPSession();
+    await client.send('Network.clearBrowserCookies');
+    await client.send('Network.clearBrowserCache');
 
     //#PART 1
     await page.goto(`https://service.mail.com/registration.html?edition=int&lang=en&#.1258-header-signup2-1`, { timeout: 45000, waitUntil: 'networkidle2' });
@@ -239,6 +240,7 @@ app.get('/p/create', async (req, res) => {
     await delay(8000);
     const base64 = await page.screenshot({ encoding: "base64" });
     res.write(`<img src="data:image/png;base64,${base64}"></img><br>`);
+    await context.close();
     return res.end();
 
     /*
