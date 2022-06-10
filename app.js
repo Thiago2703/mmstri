@@ -149,8 +149,8 @@ app.get('/p/create', async (req, res) => {
       `--load-extension=${extension}`,
       '--no-sandbox'
     ],
-    ignoreDefaultArgs: ["--enable-automation"],
-    userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
+    ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
+    userDataDir: ' ./myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
   })
   console.log('Init');
   res.setTimeout(150000, function () {
