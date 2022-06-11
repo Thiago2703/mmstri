@@ -185,7 +185,7 @@ app.get('/p/create', async (req, res) => {
     //#PART 1
     await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await page.goto(`https://antoinevastel.com/bots/`, { timeout: 45000, waitUntil: 'networkidle2' });
-    //await delay(4000000);
+    await delay(2000);
     // try {
     //   await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true, timeout: 20000 });
     //   await page.click('#onetrust-accept-btn-handler', { button: 'left' });
