@@ -186,7 +186,7 @@ app.get('/p/create', async (req, res) => {
     //await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
     await page.goto(`https://dashboard.hcaptcha.com/signup?type=accessibility`, { timeout: 45000, waitUntil: 'networkidle0' });
     await page.waitForSelector('#email', { visible: true });
-    await page.type('#email', 'thereishopeletseenow@proton.me', { delay: 225 });
+    await page.type('#email', req.query.email, { delay: 233 });
     await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
     await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
     await delay(5000);
