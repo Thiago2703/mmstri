@@ -133,7 +133,7 @@ app.get('/p/create', async (req, res) => {
     return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/create?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
   }
 
-  const extension = path.join(__dirname, '1.3.1_1')
+  const extension = path.join(__dirname, '1.3.1_0')
   /*const chrome = path.join(__dirname, 'GoogleChromePortable', 'App', 'Chrome-bin', 'chrome.exe').replaceAll('\\', '/')
   console.log('extension path')
   console.log(extension)
