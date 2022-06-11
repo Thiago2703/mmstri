@@ -147,8 +147,8 @@ app.get('/p/create', async (req, res) => {
       '--disk-cache-size=0',
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process',
-      `--disable-extensions-except=${extension}`,
-      `--load-extension=${extension}`,
+      //`--disable-extensions-except=${extension}`,
+      //`--load-extension=${extension}`,
       '--no-sandbox'
     ],
     ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
