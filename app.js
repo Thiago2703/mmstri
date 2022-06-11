@@ -127,7 +127,7 @@ app.get('/p/create', async (req, res) => {
 
 
 
-  res.writeHead(202, { 'Content-Type': 'application/json' });
+  res.writeHead(202, { 'Content-Type': 'text/html' });
   if (!req.query.email || !req.query.pass) {
     res.set('Content-Type', 'text/html');
     return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/create?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
@@ -145,8 +145,8 @@ app.get('/p/create', async (req, res) => {
     args: [
       `--headless=chrome`,
       '--disk-cache-size=0',
-      '--disable-web-security',
-      '--disable-features=IsolateOrigins,site-per-process',
+      //'--disable-web-security',
+      //'--disable-features=IsolateOrigins,site-per-process',
       `--disable-extensions-except=${extension}`,
       `--load-extension=${extension}`,
       '--no-sandbox'
@@ -279,8 +279,15 @@ app.get('/p/create', async (req, res) => {
 
     //#PART 2
     await page.waitForSelector('#label_1', { visible: true });
+
     await autoScroll(page);
-    await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 50000 });
+
+    await delay(10000);
+    const base64_1 = await page.screenshot({ encoding: "base64" });
+    res.write(`<img src="data:image/png;base64,${base64_1}"></img><br>`);
+
+
+    await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 40000 });
     await page.click(`.button-large`, { button: 'left' });
     //await page.waitForSelector(`input[value*="${mail}"]`);
     //await page.click(`.button-large`, { button: 'left' });
