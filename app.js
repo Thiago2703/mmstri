@@ -140,7 +140,7 @@ app.get('/p/create', async (req, res) => {
   console.log('chrome path', typeof chrome)
   console.log(chrome)*/
   const browser = await puppeteerS.launch({
-    headless: false,
+    headless: true,
     //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     args: [
       //`--headless=chrome`,
