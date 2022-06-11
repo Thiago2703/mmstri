@@ -145,8 +145,8 @@ app.get('/p/create', async (req, res) => {
     args: [
       `--headless=chrome`,
       '--disk-cache-size=0',
-      //'--disable-web-security',
-      //'--disable-features=IsolateOrigins,site-per-process',
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins,site-per-process',
       `--disable-extensions-except=${extension}`,
       `--load-extension=${extension}`,
       '--no-sandbox'
@@ -183,9 +183,19 @@ app.get('/p/create', async (req, res) => {
     await client.send('Network.clearBrowserCache');
 
     //#PART 1
-    await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
-    //await page.goto(`https://antoinevastel.com/bots/`, { timeout: 45000, waitUntil: 'networkidle2' });
-    await delay(2000);
+    //await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
+    await page.goto(`https://dashboard.hcaptcha.com/signup?type=accessibility`, { timeout: 45000, waitUntil: 'networkidle0' });
+    await page.waitForSelector('#email', { visible: true });
+    await page.type('#email', 'iwillneverfallinlove24@proton.me', { delay: 25 });
+    await page.click('button', {
+      button: 'left',
+    });
+    await delay(10000);
+    const base64 = await page.screenshot({ encoding: "base64" });
+    //res.status(200).send(base64);
+    res.write(`<img src="data:image/png;base64,${base64}"></img>`);
+    return res.end();
+    await delay(20565600);
     // try {
     //   await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true, timeout: 20000 });
     //   await page.click('#onetrust-accept-btn-handler', { button: 'left' });
