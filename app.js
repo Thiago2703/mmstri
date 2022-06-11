@@ -143,16 +143,16 @@ app.get('/p/create', async (req, res) => {
     headless: true,
     //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     args: [
-      //`--headless=chrome`,
+      `--headless=chrome`,
       //'--disk-cache-size=0',
-      '--disable-web-security',
-      '--disable-features=IsolateOrigins,site-per-process',
-      `--disable-extensions-except=${extension}`,
-      `--load-extension=${extension}`,
+      //'--disable-web-security',
+      //'--disable-features=IsolateOrigins,site-per-process',
+      //`--disable-extensions-except=${extension}`,
+      //`--load-extension=${extension}`,
       '--no-sandbox'
     ],
     ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
-    userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
+    //userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
   })
   console.log('Init');
   res.setTimeout(150000, function () {
@@ -177,26 +177,28 @@ app.get('/p/create', async (req, res) => {
     const page = await context.newPage();
     const userAgent = new UA();
     await page.setUserAgent(userAgent.toString())
-    await page.setCacheEnabled(false);
+    /*await page.setCacheEnabled(false);
     const client = await page.target().createCDPSession();
     await client.send('Network.clearBrowserCookies');
-    await client.send('Network.clearBrowserCache');
+    await client.send('Network.clearBrowserCache');*/
 
     //#PART 1
     //await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
-    const cookies = [{
-      'domain': '.hcaptcha.com',
-      'name': 'hc_accessibility',
-      'value': 'dnTzpBkl6SBDZLFk27zWKaIdGuB10HsBCGHkbDJo1YllcsEWtKIFO68KnsUb+ZPF1JHH1nk4MqAh6XDQgoGsJ7hld73LLAlbb35S64TtwyC/mF0KlickWhVgwpeX/wHDNs4iUHIhXX5yTkKm98/PNZwhZjJoyu5SyqzhcN/JY4pcCHiYcohyZLQhhjQPKplv+dyjeMCx16hBJKwte8KJV8U1J1NUq7kmvslp+dZx3yY5TVirmlDzyVS9pQVeMTQAeyZereLV78RGNM0mXTHJuqIyf4KrdtrOnIsCtQeGpF7LatsKj2Q90IWHW2X8v8hrzQmddUbZoHNuayRC3LSkjoj3Q/DOfrN8a955zZ6h7nwzdRicMRT0uL58iLPF5A0Lf86/mEBzE0iAb4ReOjoJpKltR4ULK72TDFZ41UF6zWTDqxh6XAVdFZkEyXh6ahk2L1Y/XbQdHrilT0RdkVvepvxb/CbXBuM+/DX2oHbPkj1h14ICe+9H1q3YFYOuG0pfJ3iBp8NV+aBZisfO9XVQqR8DuAiCC+Ou0boEwDsj4TS3yxmqL9g6+o7qs/M7KD9e1CapzhpQ9k5B6+Tb9wHxxMWZjy/aLjQXS7TN/G8Mtzg2jPyCageZJow6NQ8fpq/BbsSV/qzqMYkCLX2rrIJDlsVRoBt0P1pSK6CXG34cdVc4LlEC/8W9uEJLNXZhniyobeE3MB7b6ycUwUNu/2c9eIZ4YYQ+LVizVl26OPHVlP03IimCKm+Wk2aX/0kNIn9n7uZp6ZiuNxysJCoo/Y/qP1Rb+/+g710AQyRxcPii3EdUrshIWt1THmoN6/v+XtGucUuUybrubK5/vQRvgSVW2XOlD2TkbYl5rvWCELoKHpcrrDl87yUtaDRB8wxFmAwqRg+cFe6/algZI2fupW32KD6GJTNgxqQyWYwXsH3fjK93V142aQ6l3R1M/oDonSxSSNzSeB77T5C+ynMZ3sba6ht3IqXnK7rnsC9r9ArN2r7jy3/bJmdjDEOKgqvfM5/F47RWqfuUMO9FFkMCSA1YeDH62MmIp917CKnmMO04gSPl8/ISxJlHnzzOdExuB1YaNK1Eczr+TJ11zT2g'
-    }, {
-      'domain': '.hcaptcha.com',
-      'name': 'session',
-      'value': 'f8d958df-dda3-4a7a-b548-75da990ee150'
-    },];
-    await page.setCookie(...cookies);
-    await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
-
-
+    await page.goto(`https://dashboard.hcaptcha.com/signup?type=accessibility`, { timeout: 45000, waitUntil: 'networkidle0' });
+    await page.waitForSelector('#email', { visible: true });
+    await page.type('#email', 'thereishopeletseenow@proton.me', { delay: 225 });
+    await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+    await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+    await delay(5000);
+    await page.click('button', {
+      button: 'left',
+    });
+    await delay(10000);
+    const base64 = await page.screenshot({ encoding: "base64" });
+    //res.status(200).send(base64);
+    res.write(`<img src="data:image/png;base64,${base64}"></img>`);
+    return res.end();
+    await delay(20565600);
     // try {
     //   await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true, timeout: 20000 });
     //   await page.click('#onetrust-accept-btn-handler', { button: 'left' });
