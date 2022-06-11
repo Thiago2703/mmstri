@@ -127,7 +127,7 @@ app.get('/p/create', async (req, res) => {
 
 
 
-  res.writeHead(202, { 'Content-Type': 'text/html' });
+  res.writeHead(202, { 'Content-Type': 'application/json' });
   if (!req.query.email || !req.query.pass) {
     res.set('Content-Type', 'text/html');
     return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/create?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
@@ -183,61 +183,61 @@ app.get('/p/create', async (req, res) => {
     await client.send('Network.clearBrowserCache');
 
     //#PART 1
-    await page.goto(`https://signup.heroku.com/`, { timeout: 45000, waitUntil: 'networkidle2' });
+    await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await page.goto(`https://antoinevastel.com/bots/`, { timeout: 45000, waitUntil: 'networkidle2' });
     //await delay(4000000);
-    try {
-      await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true, timeout: 20000 });
-      await page.click('#onetrust-accept-btn-handler', { button: 'left' });
-    } catch (error) { }
+    // try {
+    //   await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true, timeout: 20000 });
+    //   await page.click('#onetrust-accept-btn-handler', { button: 'left' });
+    // } catch (error) { }
 
-    await autoScroll(page);
-
-
-    try {
-
-      await page.waitForSelector('iframe[src*="https://www.google.com/recaptcha/api2/anchor"]', { visible: true, timeout: 30000 });
-      const frames = await page.frames();
-      const frame = frames.find(frame => frame.url().includes('/recaptcha/api2/anchor?'));
-      const content_frame = frames.find(frame => frame.url().includes('/recaptcha/api2/bframe?'));
-
-      await frame.waitForSelector('#recaptcha-anchor', { visible: true, timeout: 15000 });
-      //await delay(2000);
-      //const button = await frame.$('#recaptcha-anchor');
-      await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
-      await delay(2000);
-      await frame.click('#recaptcha-anchor', {
-        button: 'left',
-      });
+    // await autoScroll(page);
 
 
-      //SCREENSHOTA
-      await delay(5000);
-      const base64_1 = await page.screenshot({ encoding: "base64" });
-      res.write(`<img src="data:image/png;base64,${base64_1}"></img><br>`);
+    // try {
+
+    //   await page.waitForSelector('iframe[src*="https://www.google.com/recaptcha/api2/anchor"]', { visible: true, timeout: 30000 });
+    //   const frames = await page.frames();
+    //   const frame = frames.find(frame => frame.url().includes('/recaptcha/api2/anchor?'));
+    //   const content_frame = frames.find(frame => frame.url().includes('/recaptcha/api2/bframe?'));
+
+    //   await frame.waitForSelector('#recaptcha-anchor', { visible: true, timeout: 15000 });
+    //   //await delay(2000);
+    //   //const button = await frame.$('#recaptcha-anchor');
+    //   await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+    //   await delay(2000);
+    //   await frame.click('#recaptcha-anchor', {
+    //     button: 'left',
+    //   });
 
 
-      /* await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 30000 });
-       await content_frame.click('#recaptcha-audio-button', {
-         button: 'left',
-       });*/
-      await content_frame.waitForSelector('.help-button-holder', { visible: true, timeout: 25000 });
-      await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
-      await delay(15);
-      await content_frame.click('.help-button-holder', {
-        button: 'left',
-      });
-      console.log('solve button clicked');
-      await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 25000, visible: true })
+    //   //SCREENSHOTA
+    //   await delay(5000);
+    //   const base64_1 = await page.screenshot({ encoding: "base64" });
+    //   res.write(`<img src="data:image/png;base64,${base64_1}"></img><br>`);
 
-    } catch (error) {
-      console.log(error)
-    }
 
-    await delay(8000);
-    const base64 = await page.screenshot({ encoding: "base64" });
-    res.write(`<img src="data:image/png;base64,${base64}"></img><br>`);
-    return res.end();
+    //   /* await content_frame.waitForSelector('#recaptcha-audio-button', { visible: true, timeout: 30000 });
+    //    await content_frame.click('#recaptcha-audio-button', {
+    //      button: 'left',
+    //    });*/
+    //   await content_frame.waitForSelector('.help-button-holder', { visible: true, timeout: 25000 });
+    //   await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
+    //   await delay(15);
+    //   await content_frame.click('.help-button-holder', {
+    //     button: 'left',
+    //   });
+    //   console.log('solve button clicked');
+    //   await frame.waitForSelector('#recaptcha-anchor[aria-checked*="true"]', { timeout: 25000, visible: true })
+
+    // } catch (error) {
+    //   console.log(error)
+    // }
+
+    // await delay(8000);
+    // const base64 = await page.screenshot({ encoding: "base64" });
+    // res.write(`<img src="data:image/png;base64,${base64}"></img><br>`);
+    // return res.end();
 
     /*
     const base64 = await page.screenshot({ encoding: "base64" });
@@ -280,7 +280,7 @@ app.get('/p/create', async (req, res) => {
     //#PART 2
     await page.waitForSelector('#label_1', { visible: true });
     await autoScroll(page);
-    await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 40000 });
+    await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 50000 });
     await page.click(`.button-large`, { button: 'left' });
     //await page.waitForSelector(`input[value*="${mail}"]`);
     //await page.click(`.button-large`, { button: 'left' });
