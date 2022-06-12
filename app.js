@@ -155,7 +155,7 @@ app.get('/p/mail', async (req, res) => {
   res.writeHead(202, { 'Content-Type': 'application/json' });
 
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: [
       //'--headless=chrome',
       '--no-sandbox'
