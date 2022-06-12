@@ -160,7 +160,7 @@ app.get('/p/mail', async (req, res) => {
       //'--headless=chrome',
       '--no-sandbox'
     ],
-    ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
+    //ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
   });
   console.log('Browser Opened');
   handleCloseBrowser(req, res, browser);
