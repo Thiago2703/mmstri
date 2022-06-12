@@ -8,6 +8,8 @@ var crypto = require('crypto');
 const querystring = require('querystring');
 const path = require('path');
 const fs = require('fs');
+var randomWords = require('random-words');
+const name_list = fs.readFileSync(path.join(__dirname, 'name_list.txt')).toString().replace(/\r\n/g, '\n').split('\n');
 var UA = require('user-agents');
 
 var host = process.env.HOST || '0.0.0.0';
@@ -697,12 +699,54 @@ app.get('/p/create', async (req, res) => {
 
 
 
-app.get('/p/hcap', async (req, res) => {
+app.get('/p/loop', async (req, res) => {
 
   res.writeHead(202, { 'Content-Type': 'application/json' });
+  if (!req.query.app || !req.query.key) {
+    res.set('Content-Type', 'text/html');
+    return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/loop?app=APP_NAME&key=API_KEY</strong>')
+  }
+  req.on('close', () => {
+    return res.end();
+  });
+  req.on('end', () => {
+    return res.end();
+  });
 
+  async function create(APP_NAME, APP_KEY) {
+    while (true) {
+      try {
+        let random_1 = name_list[Math.floor(Math.random() * name_list.length)] + randomWords({ exactly: 2, join: '' });
+        let random_2 = name_list[Math.floor(Math.random() * name_list.length)] + randomWords({ exactly: 2, join: '' });
+        let email = random_1.toLowerCase() + randomIntFromInterval(10, 999);
+        let pass = random_2 + randomIntFromInterval(10, 999);
+        let ip = await axios.get(`https://${APP_NAME}.herokuapp.com/ip`)
+        let request = await axios.get(`https://${APP_NAME}.herokuapp.com/p/create?email=${email}&pass=${pass}`);
+        let response = request.data;
 
+        if (response.status === 'success') {
+          console.log(`✅CREATED - ${response.email}:${response.pass} - ${APP_NAME} - ${ip.data}`)
+          //list.write(`${response.email}:${response.pass}\n`);
+          res.write(`${response.email}:${response.pass}\n`);
+        } else {
+          console.log(`Retrying - ${APP_NAME}... - ${ip.data}`)
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        await axios.delete(`https://api.heroku.com/apps/${APP_NAME}/dynos`, {
+          headers: {
+            "accept": "application/vnd.heroku+json; version=3",
+            "content-type": "application/json",
+            "authorization": "Bearer " + APP_KEY,
+          }
+        })
+        await delay(randomIntFromInterval(5000, 8000));
+      }
+    }
+  }
 
+  create(req.query.app, req.query.key);
   /*
   requ = await REQ_Data("account-api.proton.me", "f99ae21a-1f92-46a4-938e-da6a6afb72ec")
   requ["type"] = "hsl"
@@ -717,7 +761,6 @@ app.get('/p/hcap', async (req, res) => {
     res.write(`{"status": "failed"}`);
   }*/
 
-  return res.end();
 
 })
 
