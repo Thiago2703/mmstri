@@ -439,17 +439,17 @@ app.get('/p/create', async (req, res) => {
     return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/create?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
   }
 
-  const extension = path.join(__dirname, 'callbackHooker')
+  const extension = path.join(__dirname, '1.3.1_0')
   /*const chrome = path.join(__dirname, 'GoogleChromePortable', 'App', 'Chrome-bin', 'chrome.exe').replaceAll('\\', '/')
   console.log('extension path')
   console.log(extension)
   console.log('chrome path', typeof chrome)
   console.log(chrome)*/
   const browser = await puppeteerS.launch({
-    headless: true,
+    headless: false,
     //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     args: [
-      `--headless=chrome`,
+      // `--headless=chrome`,
       //'--disk-cache-size=0',
       //'--disable-web-security',
       //'--disable-features=IsolateOrigins,site-per-process',
@@ -604,6 +604,8 @@ app.get('/p/create', async (req, res) => {
     await page.waitForFrame(async (frame) => {
       return frame.url().includes('.hcaptcha.com');
     }, { timeout: 15000 });
+
+    /*
     const frame = await page.frames().find(f => f.url().includes('captcha?Token'));
     await frame.waitForSelector('#anycaptchaSolveButton', { visible: true });
     requ = await REQ_Data("account-api.proton.me", "f99ae21a-1f92-46a4-938e-da6a6afb72ec")
@@ -616,7 +618,7 @@ app.get('/p/create', async (req, res) => {
     } else {
       throw Error('FAILED TO GET TOKEN')
     }
-    await frame.evaluate((captcha) => document.getElementById('anycaptchaSolveButton').onclick(captcha), captcha)
+    await frame.evaluate((captcha) => document.getElementById('anycaptchaSolveButton').onclick(captcha), captcha)*/
 
     /*await delay(5000);
 
