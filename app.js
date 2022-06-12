@@ -18,6 +18,45 @@ const puppeteerS = addExtra(puppeteer);
 const stealth = StealthPlugin();
 puppeteerS.use(stealth);
 
+//bloquear recursos para deixar o carregamento mais rápido
+const blockedResourceTypes = [
+  'image',
+  'media',
+  'font',
+  'texttrack',
+  'object',
+  'beacon',
+  'csp_report',
+  'imageset',
+  'iframe',
+  'imgur'
+];
+
+const skippedResources = [
+  'quantserve',
+  'adzerk',
+  'doubleclick',
+  'adition',
+  'exelator',
+  'sharethrough',
+  'cdn.api.twitter',
+  'google-analytics',
+  'googletagmanager',
+  'fontawesome',
+  'facebook',
+  'analytics',
+  'optimizely',
+  'clicktale',
+  'mixpanel',
+  'zedo',
+  'clicksor',
+  'tiqcdn',
+  'iframe',
+  'sharecool',
+  'imgur',
+  'script'
+];
+
 /**
  * helps
  */
@@ -106,6 +145,29 @@ const extendTimeoutMiddleware = (req, res, next) => {
   next();
 };
 
+const handleCloseBrowser = (req, res, browser) => {
+
+  res.setTimeout(150000, function () {
+    console.log('Browser Timedout');
+    browser.close()
+    res.sendStatus(408);
+    return res.end();
+  });
+  req.on('close', () => {
+    console.log('Browser Closed')
+    browser.close()
+    return res.end();
+  });
+  req.on('end', () => {
+    console.log('Browser Ended');
+    browser.close()
+    return res.end();
+  });
+
+  return;
+
+};
+
 app.use(extendTimeoutMiddleware);
 /*app.get('/wait', async (req, res) => {
   await delay(125000);
@@ -122,6 +184,72 @@ app.get('/ip', async (req, res) => {
     console.log(error)
     res.status(500).send('server Error');
   }
+})
+app.get('/p/mail', async (req, res) => {
+  /*if (!req.query.email || !req.query.pass) {
+    res.set('Content-Type', 'text/html');
+    return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/mail?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
+  }*/
+  res.writeHead(202, { 'Content-Type': 'application/json' });
+  let start = Date.now();
+  const browser = await puppeteerS.launch({
+    headless: true,
+    args: [
+      //'--headless=chrome',
+      '--no-sandbox'
+    ],
+    ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
+  });
+  console.log('Browser Opened');
+  handleCloseBrowser(req, res, browser);
+
+  try {
+
+    const context = await browser.createIncognitoBrowserContext();
+    const page = await context.newPage();
+    /*await page.setRequestInterception(true);
+    page.on('request', request => {
+      const requestUrl = request._url.split('?')[0].split('#')[0];
+      if (
+        blockedResourceTypes.indexOf(request.resourceType()) !== -1 ||
+        skippedResources.some(resource => requestUrl.indexOf(resource) !== -1)
+      ) {
+        request.abort();
+      } else {
+        request.continue();
+      }
+    });*/
+    const userAgent = new UA();
+    await page.setUserAgent(userAgent.toString())
+    await page.goto(`https://account.proton.me/login`, { timeout: 25000, waitUntil: 'networkidle2' });
+    await page.waitForSelector('#username', { visible: true });
+    await page.type('#username', 'albissadavaydavay@proton.me', { delay: 10 });
+    await page.type('#password', 'ahamilikeit*', { delay: 10 });
+    await page.click('button[type="submit"]', { button: 'left' });
+    await page.waitForSelector('div[data-shortcut-target="item-container"]', { visible: true, timeout: 40000 });
+    //await page.click('div[data-shortcut-target="item-container"]', { button: 'left' });
+    //await page.waitForSelector('.message-iframe > iframe', { visible: true, timeout: 40000 });
+    let stop = Date.now();
+    console.log(`DONE ${(stop - start) / 1000}s`)
+    //let mail_body = await page.evaluate(() => { return document.querySelector('.message-iframe > iframe').contentWindow.document.querySelector('table').innerText })
+    //console.log(mail_body);
+    res.write(`DONE ${(stop - start) / 1000}s`);
+    res.end();
+
+  } catch (error) {
+    console.log(error)
+    res.write(`{"status": "failed", "reason":"Internal Error"}`);
+    res.end();
+  } finally {
+    console.log('browser closed')
+    browser.close()
+  }
+
+
+  await delay(5000);
+  res.write(`{"status": "success"}`);
+  return res.end();
+
 })
 app.get('/p/create', async (req, res) => {
 
@@ -140,19 +268,19 @@ app.get('/p/create', async (req, res) => {
   console.log('chrome path', typeof chrome)
   console.log(chrome)*/
   const browser = await puppeteerS.launch({
-    headless: true,
+    headless: false,
     //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     args: [
-      `--headless=chrome`,
+      //`--headless=chrome`,
       //'--disk-cache-size=0',
       //'--disable-web-security',
       //'--disable-features=IsolateOrigins,site-per-process',
-      //`--disable-extensions-except=${extension}`,
-      //`--load-extension=${extension}`,
+      `--disable-extensions-except=${extension}`,
+      `--load-extension=${extension}`,
       '--no-sandbox'
     ],
     ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
-    //userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
+    userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
   })
   console.log('Init');
   res.setTimeout(150000, function () {
@@ -183,8 +311,8 @@ app.get('/p/create', async (req, res) => {
     await client.send('Network.clearBrowserCache');*/
 
     //#PART 1
-    //await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
-    await page.goto(`https://dashboard.hcaptcha.com/signup?type=accessibility`, { timeout: 45000, waitUntil: 'networkidle0' });
+    await page.goto(`https://account.proton.me/signup?plan=free&billing=12&currency=EUR&language=en`, { timeout: 45000, waitUntil: 'networkidle2' });
+    /*await page.goto(`https://dashboard.hcaptcha.com/signup?type=accessibility`, { timeout: 45000, waitUntil: 'networkidle0' });
     await page.waitForSelector('#email', { visible: true });
     await page.type('#email', req.query.email, { delay: 233 });
     await page.mouse.move(randomIntFromInterval(10, 9999), randomIntFromInterval(10, 9999));
@@ -198,7 +326,7 @@ app.get('/p/create', async (req, res) => {
     //res.status(200).send(base64);
     res.write(`<img src="data:image/png;base64,${base64}"></img>`);
     return res.end();
-    await delay(20565600);
+    await delay(20565600);*/
     // try {
     //   await page.waitForSelector('#onetrust-accept-btn-handler', { visible: true, timeout: 20000 });
     //   await page.click('#onetrust-accept-btn-handler', { button: 'left' });
@@ -300,7 +428,7 @@ app.get('/p/create', async (req, res) => {
     res.write(`<img src="data:image/png;base64,${base64_1}"></img><br>`);
 
 
-    await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 40000 });
+    await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 520000 });
     await page.click(`.button-large`, { button: 'left' });
     //await page.waitForSelector(`input[value*="${mail}"]`);
     //await page.click(`.button-large`, { button: 'left' });
