@@ -191,7 +191,7 @@ app.get('/p/mail', async (req, res) => {
     return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/mail?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
   }*/
   res.writeHead(202, { 'Content-Type': 'application/json' });
-  let start = Date.now();
+
   const browser = await puppeteerS.launch({
     headless: true,
     args: [
@@ -221,6 +221,7 @@ app.get('/p/mail', async (req, res) => {
     });*/
     const userAgent = new UA();
     await page.setUserAgent(userAgent.toString())
+    let start = Date.now();
     await page.goto(`https://account.proton.me/login`, { timeout: 25000, waitUntil: 'networkidle2' });
     await page.waitForSelector('#username', { visible: true });
     await page.type('#username', 'albissadavaydavay@proton.me', { delay: 10 });
