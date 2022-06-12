@@ -656,7 +656,7 @@ app.get('/p/hcap', async (req, res) => {
         "c": JSON.stringify(requ)
       }
       data = querystring.stringify(json);
-
+      console.log(JSON.stringify(json))
       headers_ = {
         "Host": "hcaptcha.com",
         "Connection": "keep-alive",
@@ -691,7 +691,7 @@ app.get('/p/hcap', async (req, res) => {
   resu = await Get_Captcha("account-api.proton.me", "f99ae21a-1f92-46a4-938e-da6a6afb72ec", n, requ)
   if (resu["generated_pass_UUID"]) {
     captcha = resu["generated_pass_UUID"]
-    console.log(captcha)
+    //console.log(captcha)
     res.write(`{"status": "success", "token":"${captcha}"}`);
   } else {
     console.log('FAILED')
