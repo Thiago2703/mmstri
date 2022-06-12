@@ -18,44 +18,6 @@ const puppeteerS = addExtra(puppeteer);
 const stealth = StealthPlugin();
 puppeteerS.use(stealth);
 
-//bloquear recursos para deixar o carregamento mais rápido
-const blockedResourceTypes = [
-  'image',
-  'media',
-  'font',
-  'texttrack',
-  'object',
-  'beacon',
-  'csp_report',
-  'imageset',
-  'iframe',
-  'imgur'
-];
-
-const skippedResources = [
-  'quantserve',
-  'adzerk',
-  'doubleclick',
-  'adition',
-  'exelator',
-  'sharethrough',
-  'cdn.api.twitter',
-  'google-analytics',
-  'googletagmanager',
-  'fontawesome',
-  'facebook',
-  'analytics',
-  'optimizely',
-  'clicktale',
-  'mixpanel',
-  'zedo',
-  'clicksor',
-  'tiqcdn',
-  'iframe',
-  'sharecool',
-  'imgur',
-  'script'
-];
 
 /**
  * helps
@@ -192,8 +154,8 @@ app.get('/p/mail', async (req, res) => {
   }*/
   res.writeHead(202, { 'Content-Type': 'application/json' });
 
-  const browser = await puppeteerS.launch({
-    headless: true,
+  const browser = await puppeteer.launch({
+    headless: false,
     args: [
       //'--headless=chrome',
       '--no-sandbox'
@@ -207,6 +169,57 @@ app.get('/p/mail', async (req, res) => {
 
     const context = await browser.createIncognitoBrowserContext();
     const page = await context.newPage();
+    const blockedResourceTypes = [
+      'image',
+      'media',
+      'font',
+      'texttrack',
+      'object',
+      'beacon',
+      'csp_report',
+      'imageset',
+      'iframe',
+      'imgur'
+    ];
+
+    const skippedResources = [
+      'quantserve',
+      'adzerk',
+      'doubleclick',
+      'adition',
+      'exelator',
+      'sharethrough',
+      'cdn.api.twitter',
+      'google-analytics',
+      'googletagmanager',
+      'fontawesome',
+      'facebook',
+      'analytics',
+      'optimizely',
+      'clicktale',
+      'mixpanel',
+      'zedo',
+      'clicksor',
+      'tiqcdn',
+      'iframe',
+      'sharecool',
+      'imgur',
+      'script'
+    ];
+
+    await page.setRequestInterception(true);
+    page.on('request', request => {
+      const requestUrl = request._url.split('?')[0].split('#')[0];
+      if (
+        blockedResourceTypes.indexOf(request.resourceType()) !== -1 ||
+        skippedResources.some(resource => requestUrl.indexOf(resource) !== -1)
+      ) {
+        console.log('BLOCADOOOO')
+        request.abort();
+      } else {
+        request.continue();
+      }
+    });
     /*await page.setRequestInterception(true);
     page.on('request', request => {
       const requestUrl = request._url.split('?')[0].split('#')[0];
