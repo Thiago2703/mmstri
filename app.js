@@ -431,7 +431,7 @@ app.get('/p/create', async (req, res) => {
 
   }
 
-  res.writeHead(202, { 'Content-Type': 'text/html' });
+  res.writeHead(202, { 'Content-Type': 'application/json' });
   if (!req.query.email || !req.query.pass) {
     res.set('Content-Type', 'text/html');
     return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/create?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
@@ -616,10 +616,10 @@ app.get('/p/create', async (req, res) => {
     }
     await frame.evaluate((captcha) => document.getElementById('anycaptchaSolveButton').onclick(captcha), captcha)
 
-    await delay(5000);
+    /*await delay(5000);
 
     const base64_1 = await page.screenshot({ encoding: "base64" });
-    res.write(`<img src="data:image/png;base64,${base64_1}"></img><br>`);
+    res.write(`<img src="data:image/png;base64,${base64_1}"></img><br>`);*/
 
     await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 40000 });
     await page.click(`.button-large`, { button: 'left' });
