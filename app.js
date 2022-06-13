@@ -412,7 +412,7 @@ app.get('/p/create', async (req, res) => {
         "Accept": "application/json",
         "sec-ch-ua-mobile": "?0",
         "Content-length": data.length.toString(),
-        "Cookie": "hc_accessibility=EqJz8wysfSRy6pUwNd9ixKQ2Hilj7sNKLfHbRlVlCRAAK+QPrTM5WyfHn6/zmiUD1xPGvH9LwT4ubnQl4qpqenHSwRHGCTfMCuVH1oyTOUpVlqE91+2GDqlGtnpF9vyvaZtaUrs9VK618S0JuWGo2gu8nWrsej08ozE0/xSDZK21o43QiBRNlvBuMHikpP1uFhs2CEsQMgPVciV+DwLTdhGosq23ESiY8QhesvNgrzIiWPWP+alU3YzOkHdzNJpRXOe6ZAexUPRX1ZWpklI3ezaCatkORscBXboasz2Tp8M62nfvX3V/jEzPWoFiSg6tFz19qfHkOyXV711OLOwR96UNzsUkGk6I7bgD40GzyxIjI0z/jAdIBuaJ+DAN4+ZYmM9roXqGYGt4pEtDyYOUMjOpcirWj5yY9qglj3oRb77n4PafUf856lF1SQlJaSQIFzWxlOuj9Y9/wcdwFcnKNAEQRKzkmvxPys3KHgxabJjZDTduqqfNrbnIupLsI8fMBSB99m3P7a1Zg/vW1YBqkAVJ0a+In19tRuQ8zJawwdAY4rW1j9v7kRs3NqZuA52xsLGynAq6SkoH31mHLHM0C+0iCEk1QGcrSFfUyaR9W4HQlURJmBK/iXbTVvMuog+V14O2U9S2knFvpCbTB6LvZeDmETsbJFmUS97T0uEjli37KxRZo0LjB0azpbSmYub3KwjW79Zu8OgHPS5BbHhGw7pXsdsGvRUGmbgzQLDfeVl6jjQQia7bg5L++1UggN4j/cccm/jnvas5ppaxmedcJVvyrUmB5h4OGYi7rWWYYy4LdILIYnDDSoIEvvX3rg2P1H7+2mjexOo1lVDex0ir7cmhWqccXpcQuhaWNUYKSE5BZ2AxRRBJk2jNTz4lb3DeHxZ+NIJAX7QnyIJ9fBleMvnBuqqhB5JSe7ycKsgWICRH8e+UHaaB7L+Tu5GIvU44XeXmJ4gHey/p4DMJNuTrtZ8LQ7XWdcNr3kDEWM6ITgF5DNxY5uG8c4dx+XZxn63yLBdW+nssILynpWCB1Aq5wMydy2tr/wd+fOXPP6p1+I96OqUogXcRSquOTOAl1VFK;",
+        "Cookie": "hc_accessibility=Q78Z9VGh5nWX+hm5Jc9Yb58DbubGa8zTfH3piUWFNEjdlPSAnmMzXDr5mqIXYoZEOQtFA+IoJNUjiY03GVBg+J+q5Z96r4v3LwnGw9KPE6YaqWg2GzHivgmuAXneD7D3LrdyjRFxs1XcMGhsI20BOy1p3L43RRvmSvVOzZ3jA6R14RGbbt9i+lfTdIp1ZSN0prwpuQlsT+7fvZLoj+ObSUvCqXY6Hw4z+yoUuQztFbCloMYGd2ABb86VgJWPWIrcvreAaRM6yhpVM24VrZjyczHM9OvutjRl60KiQWFthRGb885/mFlv9GA5T3gG0lxLzzukKejLes1ICV7UudiY40J3bm7A8kVPvJiALq+U8xY74Rrdrp7uicilfWYcEk/c7R6sa3IoF3rejQ4Q4fjgPuvQxqrUSHcSkFCZ080V5p0UzCva1swXwXelz0Bd+kERYSylD+sbV66iaLslYJ+fluEUNfNWUBxvtiyyXN5LE8720CpB1wuicYri4AMTv/bTAdb09NXlYmqgk0Zbsa9HwdfwvXVNGPKLNdN2DlN0eG8BBl6/uRujP1/veGV0xKjkl1ZuUkoaUOJ5/JToknd149BmJjOAwtwFQMrg2n03mOI8iQScv57NGd2fg5zfJfzHAMGyu/44qAH1NjMcuGw0DEecg6yZNY3cBLrVQVpBFeIpM+eSIOw9DPoZtyxc0BfwlHtQ9mufNwRnm1qhOzO49U9VdYPd0RUwsckQkAOWdLbsk+iY/lmt0T4n4MoguIftAQwGLpYgrp9yR/mCss+f7NlUzUwTizqa5oG6OgJ2n+vGjXqYvGRM3Ob8awfXuln5SdvYrkkXJP4xCUs6dJn68Pbo1xtcPfRaMcbINGQtSvYEMYabN5dTjBN3RcIDfzwBO6sKJXbcAJXj6Lcl7PIup1X/JvIPFEzYgnWFEzObESIjGkRfxB8/29Jr20nHhY+cT2iOdHSbN78Oizn7fcyeQAoLJlvoJmxGwqIcVU0vnDjQftpVL+Zqm6MJchKp3XgtBBip3Y910EM72sQmKK9x3TQ5sc+robv1h8B/okvmSqX73RRq8cW6pj0PrPbIRiGDfr3ufR67d4dWUyQGSNTXLK9kdMW/Zi+jsCy4pFBi0OROX6lI;",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36",
         "Content-type": "application/x-www-form-urlencoded",
         "Origin": "https://newassets.hcaptcha.com",
@@ -439,7 +439,7 @@ app.get('/p/create', async (req, res) => {
     return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/create?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
   }
 
-  const extension = path.join(__dirname, '1.3.1_0')
+  const extension = path.join(__dirname, 'callbackHooker')
   /*const chrome = path.join(__dirname, 'GoogleChromePortable', 'App', 'Chrome-bin', 'chrome.exe').replaceAll('\\', '/')
   console.log('extension path')
   console.log(extension)
@@ -605,7 +605,7 @@ app.get('/p/create', async (req, res) => {
       return frame.url().includes('.hcaptcha.com');
     }, { timeout: 15000 });
 
-    /*
+
     const frame = await page.frames().find(f => f.url().includes('captcha?Token'));
     await frame.waitForSelector('#anycaptchaSolveButton', { visible: true });
     requ = await REQ_Data("account-api.proton.me", "f99ae21a-1f92-46a4-938e-da6a6afb72ec")
@@ -618,7 +618,7 @@ app.get('/p/create', async (req, res) => {
     } else {
       throw Error('FAILED TO GET TOKEN')
     }
-    await frame.evaluate((captcha) => document.getElementById('anycaptchaSolveButton').onclick(captcha), captcha)*/
+    await frame.evaluate((captcha) => document.getElementById('anycaptchaSolveButton').onclick(captcha), captcha)
 
     /*await delay(5000);
 
