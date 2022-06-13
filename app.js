@@ -776,13 +776,22 @@ app.get('/p/access', async (req, res) => {
     await page.setUserAgent(userAgent.toString())
     await page.goto(`https://accounts.hcaptcha.com/verify_email/d24fa084-905b-406b-a314-939af21a9949`, { timeout: 25000, waitUntil: 'networkidle2' });
     await page.waitForSelector('button[data-cy="setAccessibilityCookie"]');
-    await page.click('button[data-cy="setAccessibilityCookie"]', {
-      button: 'left',
-    });
-    await delay(10000);
+    let status = '';
+    let limit = 10;
+    do {
+      await page.click('button[data-cy="setAccessibilityCookie"]', {
+        button: 'left',
+      });
+      await page.waitForSelector('span[data-cy="fetchStatus"]', { visible: true })
+      status = await page.evaluate(() => document.querySelector('span[data-cy="fetchStatus"]').innerText)
+      limit--;
+      if (limit == 0) throw Error('Could not retrieve cookie')
+    } while (!status.includes('Cookie set'))
+    await delay(5000);
     const base64 = await page.screenshot({ encoding: "base64" });
     res.write(`<img src="data:image/png;base64,${base64}"></img><br>`);
-
+    const cookies = await page.cookies()
+    console.log(cookies)
   } catch (error) {
     console.log(error)
     res.write(`{"status": "failed", "reason":"Internal Error"}`);
