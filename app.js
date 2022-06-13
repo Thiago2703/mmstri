@@ -733,68 +733,64 @@ app.get('/p/create', async (req, res) => {
 
 
 
-app.get('/p/loop', async (req, res) => {
+app.get('/p/access', async (req, res) => {
 
-  res.writeHead(202, { 'Content-Type': 'application/json' });
-  if (!req.query.app || !req.query.key) {
-    res.set('Content-Type', 'text/html');
-    return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/loop?app=APP_NAME&key=API_KEY</strong>')
-  }
+  res.writeHead(202, { 'Content-Type': 'text/html' });
+
+
+  const browser = await puppeteerS.launch({
+    headless: true,
+    //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
+    args: [
+      `--headless=chrome`,
+      //'--disk-cache-size=0',
+      //'--disable-web-security',
+      //'--disable-features=IsolateOrigins,site-per-process',
+      '--no-sandbox'
+    ],
+    ignoreDefaultArgs: ["--enable-automation"],//  ./myUserDataDir
+    //userDataDir: './myUserDataDir'//MUDARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR <-------------------------------------------------------------------------mudar no deploy
+  })
+  console.log('Init');
+  res.setTimeout(150000, function () {
+    console.log('Request has timed out.');
+    browser.close()
+    res.sendStatus(408);
+  });
   req.on('close', () => {
+    console.log('browser closed')
+    browser.close()
     return res.end();
   });
   req.on('end', () => {
+    console.log('browser closed');
+    browser.close()
     return res.end();
   });
 
-  async function create(APP_NAME, APP_KEY) {
-    while (true) {
-      try {
-        let random_1 = name_list[Math.floor(Math.random() * name_list.length)] + randomWords({ exactly: 2, join: '' });
-        let random_2 = name_list[Math.floor(Math.random() * name_list.length)] + randomWords({ exactly: 2, join: '' });
-        let email = random_1.toLowerCase() + randomIntFromInterval(10, 999);
-        let pass = random_2 + randomIntFromInterval(10, 999);
-        let ip = await axios.get(`https://${APP_NAME}.herokuapp.com/ip`)
-        let request = await axios.get(`https://${APP_NAME}.herokuapp.com/p/create?email=${email}&pass=${pass}`);
-        let response = request.data;
+  try {
 
-        if (response.status === 'success') {
-          console.log(`✅CREATED - ${response.email}:${response.pass} - ${APP_NAME} - ${ip.data}`)
-          //list.write(`${response.email}:${response.pass}\n`);
-          res.write(`${response.email}:${response.pass}\n`);
-        } else {
-          console.log(`Retrying - ${APP_NAME}... - ${ip.data}`)
-        }
-      } catch (error) {
-        console.log(error)
-      } finally {
-        await axios.delete(`https://api.heroku.com/apps/${APP_NAME}/dynos`, {
-          headers: {
-            "accept": "application/vnd.heroku+json; version=3",
-            "content-type": "application/json",
-            "authorization": "Bearer " + APP_KEY,
-          }
-        })
-        await delay(randomIntFromInterval(5000, 8000));
-      }
-    }
+    const context = await browser.createIncognitoBrowserContext();
+    const page = await context.newPage();
+    const userAgent = new UA();
+    await page.setUserAgent(userAgent.toString())
+    await page.goto(`https://accounts.hcaptcha.com/verify_email/d24fa084-905b-406b-a314-939af21a9949`, { timeout: 25000, waitUntil: 'networkidle2' });
+    await page.waitForSelector('button[data-cy="setAccessibilityCookie"]');
+    await page.click('button[data-cy="setAccessibilityCookie"]', {
+      button: 'left',
+    });
+    await delay(10000);
+    const base64 = await page.screenshot({ encoding: "base64" });
+    res.write(`<img src="data:image/png;base64,${base64}"></img><br>`);
+
+  } catch (error) {
+    console.log(error)
+    res.write(`{"status": "failed", "reason":"Internal Error"}`);
+    res.end();
+  } finally {
+    console.log('browser closed')
+    browser.close()
   }
-
-  create(req.query.app, req.query.key);
-  /*
-  requ = await REQ_Data("account-api.proton.me", "f99ae21a-1f92-46a4-938e-da6a6afb72ec")
-  requ["type"] = "hsl"
-  n = N_Data(requ["req"])
-  resu = await Get_Captcha("account-api.proton.me", "f99ae21a-1f92-46a4-938e-da6a6afb72ec", n, requ)
-  if (resu["generated_pass_UUID"]) {
-    captcha = resu["generated_pass_UUID"]
-    //console.log(captcha)
-    res.write(`{"status": "success", "token":"${captcha}"}`);
-  } else {
-    console.log('FAILED')
-    res.write(`{"status": "failed"}`);
-  }*/
-
 
 })
 
