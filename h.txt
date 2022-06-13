@@ -1,0 +1,2 @@
+https://accounts.hcaptcha.com/verify_email/050936a1-532c-460f-99eb-19999cbf050f
+https://accounts.hcaptcha.com/verify_email/d24fa084-905b-406b-a314-939af21a9949

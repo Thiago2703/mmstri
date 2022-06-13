@@ -774,7 +774,7 @@ app.get('/p/access', async (req, res) => {
     const page = await context.newPage();
     const userAgent = new UA();
     await page.setUserAgent(userAgent.toString())
-    await page.goto(`https://accounts.hcaptcha.com/verify_email/d24fa084-905b-406b-a314-939af21a9949`, { timeout: 25000, waitUntil: 'networkidle2' });
+    await page.goto(`https://accounts.hcaptcha.com/verify_email/050936a1-532c-460f-99eb-19999cbf050f`, { timeout: 25000, waitUntil: 'networkidle2' });
     await page.waitForSelector('button[data-cy="setAccessibilityCookie"]');
     await page.click('button[data-cy="setAccessibilityCookie"]', {
       button: 'left',
