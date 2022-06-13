@@ -784,8 +784,9 @@ app.get('/p/access', async (req, res) => {
       });
       await page.waitForSelector('span[data-cy="fetchStatus"]', { visible: true })
       status = await page.evaluate(() => document.querySelector('span[data-cy="fetchStatus"]').innerText)
+      console.log(limit)
       limit--;
-      if (limit == 0) throw Error('Could not retrieve cookie')
+      if (limit == 0) break;
     } while (!status.includes('Cookie set'))
     await delay(5000);
     const base64 = await page.screenshot({ encoding: "base64" });
