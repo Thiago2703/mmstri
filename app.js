@@ -10,6 +10,7 @@ const path = require('path');
 const fs = require('fs');
 var randomWords = require('random-words');
 const name_list = fs.readFileSync(path.join(__dirname, 'name_list.txt')).toString().replace(/\r\n/g, '\n').split('\n');
+const proxies = fs.readFileSync(path.join(__dirname, 'proxies.txt')).toString().replace(/\r\n/g, '\n').split('\n');
 var UA = require('user-agents');
 
 var host = process.env.HOST || '0.0.0.0';
@@ -390,7 +391,7 @@ app.get('/p/create', async (req, res) => {
       return false;
     }
   }
-  async function Get_Captcha(host, sitekey, n, requ) {
+  async function Get_Captcha(host, sitekey, n, requ, proxy) {
 
     try {
 
@@ -423,9 +424,35 @@ app.get('/p/create', async (req, res) => {
         "Accept-Language": "en-US,en;q=0.9"
       }
 
+      /*
       r = await axios.post(`https://hcaptcha.com/getcaptcha?s=${sitekey}`, data, { headers: headers_ })
 
-      return r.data
+      return r.data*/
+      function myPromise(timeout) {
+        return new Promise(async (resolve, reject) => {
+          // Set up the timeout
+          const timer = setTimeout(() => {
+            console.log('timedout')
+            resolve(null);
+          }, timeout);
+          try {
+            r = await axios.post(`https://hcaptcha.com/getcaptcha?s=${sitekey}`, data, {
+              headers: headers_,
+              proxy: false,
+              httpsAgent: new httpsProxyAgent.HttpsProxyAgent('http://' + proxy)
+            })
+            resolve(r.data)
+            //clearTimeout(timer);
+          } catch (error) {
+            resolve(null)
+          } finally {
+            clearTimeout(timer)
+          }
+
+        });
+      }
+      let ret = await myPromise(4000);
+      return ret;
 
     } catch (error) {
       console.log(error)
@@ -611,7 +638,10 @@ app.get('/p/create', async (req, res) => {
     requ = await REQ_Data("account-api.proton.me", "f99ae21a-1f92-46a4-938e-da6a6afb72ec")
     requ["type"] = "hsl"
     n = N_Data(requ["req"])
-    resu = await Get_Captcha("account-api.proton.me", "f99ae21a-1f92-46a4-938e-da6a6afb72ec", n, requ)
+    //resu = await Get_Captcha("account-api.proton.me", "f99ae21a-1f92-46a4-938e-da6a6afb72ec", n, requ)
+    do {
+      resu = await Get_Captcha("account-api.proton.me", "f99ae21a-1f92-46a4-938e-da6a6afb72ec", n, req, proxies[Math.floor(Math.random() * proxies.length)])
+    } while (!resu);
     let captcha;
     if (resu["generated_pass_UUID"]) {
       captcha = resu["generated_pass_UUID"]
