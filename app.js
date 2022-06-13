@@ -780,6 +780,8 @@ app.get('/p/access', async (req, res) => {
       button: 'left',
     });
     await delay(10000);
+    const cookies = await page.cookies()
+    console.log(cookies)
     const base64 = await page.screenshot({ encoding: "base64" });
     res.write(`<img src="data:image/png;base64,${base64}"></img><br>`);
 
