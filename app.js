@@ -807,6 +807,16 @@ app.get('/p/first', async (req, res) => {
     res.set('Content-Type', 'text/html');
     return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/access?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
   }
+  res.setTimeout(150000, function () {
+    console.log('Request has timed out.');
+    res.sendStatus(408);
+  });
+  req.on('close', () => {
+    return res.end();
+  });
+  req.on('end', () => {
+    return res.end();
+  });
   try {
 
     let start = Date.now();
