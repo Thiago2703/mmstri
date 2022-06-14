@@ -8,6 +8,10 @@ var crypto = require('crypto');
 const querystring = require('querystring');
 const path = require('path');
 const fs = require('fs');
+
+const protonmail = require('mail-proton-api');
+const cheerio = require('cheerio');
+
 var randomWords = require('random-words');
 const name_list = fs.readFileSync(path.join(__dirname, 'name_list.txt')).toString().replace(/\r\n/g, '\n').split('\n');
 const proxies = fs.readFileSync(path.join(__dirname, 'proxies.txt')).toString().replace(/\r\n/g, '\n').split('\n');
@@ -737,7 +741,6 @@ app.get('/p/access', async (req, res) => {
 
   res.writeHead(202, { 'Content-Type': 'text/html' });
 
-
   const browser = await puppeteerS.launch({
     headless: true,
     //executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
@@ -792,6 +795,67 @@ app.get('/p/access', async (req, res) => {
   } finally {
     console.log('browser closed')
     browser.close()
+  }
+
+})
+
+
+app.get('/p/first', async (req, res) => {
+
+  res.writeHead(202, { 'Content-Type': 'application/json' });
+  if (!req.query.email || !req.query.pass) {
+    res.set('Content-Type', 'text/html');
+    return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/access?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
+  }
+  try {
+
+    let start = Date.now();
+    const client = new protonmail.ProtonmailClient();
+
+    // login to the protonmail
+    await client.login({
+      username: req.query.email,
+      loginPassword: req.query.pass,
+    });
+
+    // fetch private keys in order to decrypt messages
+    await client.fetchKeys({
+      password: req.query.pass,
+    });
+
+    // fetch the first 2 messages
+    const messagesResponse = await client.messages.list({
+      LabelID: protonmail.DefaultLabels.All,
+      Limit: 2,
+      Page: 0,
+    });
+
+    // take the first one
+    const firstMessage = messagesResponse.Messages[0];
+    // get the full message with body
+    const m = await client.messages.get(firstMessage.ID);
+
+    // decrypt message
+    const m_decrypted = await client.decryptMessage(m.Message);
+
+    let stop = Date.now();
+    const $ = cheerio.load(m_decrypted, {
+      xml: {
+        normalizeWhitespace: true,
+      },
+    });
+    let txt = $('body').text();
+    message = txt.replaceAll(/(\r\n|\r|\n)/g, '\n').replaceAll(/\s\s+|\xA0|&nbsp;/g, ' ');
+
+    res.write(`{"status": "success", "duration":"${(stop - start) / 1000}s", "message":"${message}"}`);
+    res.end();
+
+
+
+  } catch (error) {
+    console.log(error)
+    res.write(`{"status": "failed", "reason":"Internal Error"}`);
+    res.end();
   }
 
 })
