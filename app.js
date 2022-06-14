@@ -805,7 +805,7 @@ app.get('/p/first', async (req, res) => {
   res.writeHead(202, { 'Content-Type': 'application/json' });
   if (!req.query.email || !req.query.pass) {
     res.set('Content-Type', 'text/html');
-    return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/access?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
+    return res.status(404).send('<h3>Not Found<h3><br><strong>Please use /p/first?email=YOUR_EMAIL&pass=YOUR_PASS</strong>')
   }
   res.setTimeout(150000, function () {
     console.log('Request has timed out.');
