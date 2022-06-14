@@ -11,7 +11,7 @@ const fs = require('fs');
 
 const protonmail = require('mail-proton-api');
 const cheerio = require('cheerio');
-
+const useProxy = require('puppeteer-page-proxy');
 var randomWords = require('random-words');
 const name_list = fs.readFileSync(path.join(__dirname, 'name_list.txt')).toString().replace(/\r\n/g, '\n').split('\n');
 const proxies = fs.readFileSync(path.join(__dirname, 'proxies.txt')).toString().replace(/\r\n/g, '\n').split('\n');
@@ -418,7 +418,7 @@ app.get('/p/create', async (req, res) => {
         "Accept": "application/json",
         "sec-ch-ua-mobile": "?0",
         "Content-length": data.length.toString(),
-        "Cookie": "hc_accessibility=uy0pfkw2tAkTtFW3IAFzin5d3tafn8zT5s5dzKhGqQL6Ghd4X5TiF6+zicfDw4tsTeshYR6hZxhRXhbKPtKfJqXqQbl5OAWgPWtbh+SrX2yYd/eOSO0AHo+ZLMT4mwRudBmKHKRmsRzBXp1upXtMCBxl5oKrRQGWUSrRTKzKaZlhLqtTZAsZV+kFLilKpD/KyvnnuRzfYJxr0xIXeK2tNBjvafQeEq2omG3f3C02S+JIQpu4aokz/dUke4zfpuaG1LwEQvMUOlaGnNEFYsaGIA7M1VefJBeTQOxLP7G0xRXVVwkPaCxeRyIAN7zC8rg+UrjL8X2BIqBGQsTG8m+kamGRI1+mvN5E93HguqIyj/hUXGMkDUcsZXPiemXF0zknBjZP1zdrbH02Kr2ovVMqfGOpbsdsRqdGlUqQIHXWX1po22jcrT9fGK8UOKOiFp9Gamned26uGa/KLrzUhnFlr2e7aSSwbnwXKmtERrEZGRosfQaDBt26A77qwywqzsTRhHJrAQj0S0oGO+vhkYuoQp4MIT5R74uBb5187BR67UDbJpkXcPjxig8oVayOkELUQ/ExYrvKT3mJFSX5g582n1x0lSFmuTXPi0ybYMl/CBHH2YNUNo1y3yWa3x9q0C7vqispoge3LFR634Q+d0gr/aYxoLhax+V3zXAHsFULKFgHS5MMS0/QHG5YekG849flP5z2cHpuAvbmMVSgoE8aK6UCR+u98kofr8Su2YldYiBxxxXPeRp85N3lgahrQCTUEgsNS3gjlzZITvWc3yNKSaZR8A7XHkunihhneRPy2jrF0foxJdEUJ6OTLmRI0WhGnj3Zi0jotntZFsgKQUJwEm3ztc5vJ59ENU/HjZ5Bk5uxadUXBjW+orf4ybHVIv1sKsJsUwhnD6MFoC3awyoFhBgHraIux0a65fQF5VSP0UeYI938nZRDVzoGot1CLAwT32aIe+xY8adRCtRf4s/S89JVEKXSsA45sJ2lpWikTZ1aIKZ63E5/1TNICjV9uwK8+lldR6/r2e56Mv2975TSlNtdfunGP3BLerdLYkmug02vYRwRGyXxNszz9iZAnhrqWiy4CumhBlVgl2sK5kYJZQ==o6T2lZe4AqkpTPx6;",
+        "Cookie": "hc_accessibility=JBQKMedWEE3JvrmaPUlzyTr4sBlNp6p0Edyvm3TwrBwJtn2nDzNAXzynVRnMbZUJLtEB+3CyS+EzS+IKHA9qLC4rSHpjLdeFAirR0u9T78VKb5Pq+I+ailJ8PlDEjZ2MN1jcu+PPKAPomxcpgMKs7zc7dtDnJmaTlNF5ui9D5NlSgn7ylJ0YShkTlEyuhNjLilqjpqjSFg4wOGE/RX+7AvKjMKx6DaGFa7DTGHvFvEbBEGlNBA6lzDLccTWDx87QBeo+TsewK6505IN/BuY8jGsJIxlcgZX3o+b9q1KSwq6UN2W43SO4YqrGttPbe/F3wUXADtvalgwtYpolJ4vgqzjlHLGj7guzQD8q4JSInwKMUHWgHJ+ljR8ow2oaprW413vzGBe4EW+E+TeBZpP2FLIGHrE53Wz0wcaHpydLTMr8IcchptFOMSh+lx2himix3Y6AjFzFJw8/ejl8ORL5BJoVi2cvxbp8ZGRhMaHVj3t6wLUZC0Dp+4peZ3Ms2Jg0uPtxeXffftUtEVSz53ilJ/QQiNyWT1bciSx2LMy0u03dXJdlhBkgMLt6d3Nvqn1dDdtc5aqgW6mRIROgIDeoPwP1V4PdEi9gkhBNThECSui5FsnW0MlYzskrcc54aYtXiK85JzFgz+X85yHQxr3NCqLHgBm+E0iVA3a1CMsD6IHEQaJ4qQFGpc5rW3sVWxXSiHKVOhiBXgpwfY/k/1ETW7Az4vbEjX8OgZHh28JvW9eSL8da5rGlz/9C72DLRg3Q4HAXAmAU/YjI7kJELc19HnD1LiL9RQt4sQE7M++5FHQTeqiK68nI7PyYtwH2nzH4ZIMVGCuKiaQ43hIc5KCmcnV/7BKRXg7pZx6/p1qdySTMi/jRS2Ru1fwWErI7pI3i92UQeLYMuM3b4nst6kciaMCkVxPEO71zpSss6/HoRuPZBPCZJkxFM+r28lLTOgFzZyjZ1MjaOTnKwi4ndmS2AVQ6GutOy8l+fKfn7IZzsg7xe61yjcK2AhPJgRM7Rzj7jt52zdoaB4vDcltGthl8pT5zADmw8kGMaqVN2M4K3vt6ef+vqoKa6bBQVbqoNO/akiN7HSeXyxx3xO/JONtoUg==VclPAlTu9lNItq07;",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36",
         "Content-type": "application/x-www-form-urlencoded",
         "Origin": "https://newassets.hcaptcha.com",
@@ -516,6 +516,46 @@ app.get('/p/create', async (req, res) => {
     const page = await context.newPage();
     const userAgent = new UA();
     await page.setUserAgent(userAgent.toString())
+
+    //APPENDICE
+    await page.setRequestInterception(true);
+    var index = 0;
+    page.on('request', async request => {
+      console.log('ALL', index)
+      if (request.url().includes('api/vpn/location')) {
+        request.respond({
+          status: 200,
+          contentType: 'application/json',
+          body: `{"Code":1000,"IP":"185.153.176.182","Lat":-23.5335,"Long":-46.635899999999999,"Country":"BR","ISP":"Tefincom S.A."}`
+        })
+      } else if (request.url().includes('api/v4/users')) {
+        if (index != 0) {
+          console.log('Proxied')
+          useProxy(request, 'http://52.45.107.168:80');
+        } else {
+          request.continue();
+          index++;
+        }
+        console.log('a', index)
+      }
+      else if (request.url().includes('unsupported.')) {
+        console.log('aborted');
+        request.abort();
+      }
+      else {
+        request.continue();
+      }
+
+    });
+
+
+
+
+
+
+
+
+
     /*await page.setCacheEnabled(false);
     const client = await page.target().createCDPSession();
     await client.send('Network.clearBrowserCookies');

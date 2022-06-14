@@ -10,6 +10,7 @@
     "puppeteer": "^14.3.0",
     "puppeteer-extra": "^3.2.3",
     "puppeteer-extra-plugin-stealth": "^2.9.0",
+    "puppeteer-page-proxy": "^1.2.8",
     "querystring": "^0.2.1",
     "random-words": "^1.1.2",
     "user-agents": "^1.0.1043"
