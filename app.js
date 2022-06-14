@@ -696,8 +696,15 @@ app.get('/p/create', async (req, res) => {
     }
     await frame.evaluate((captcha) => document.getElementById('anycaptchaSolveButton').onclick(captcha), captcha)
 
-    await delay(25000);
+    await delay(10000);
+    await page.goto(`https://account.proton.me/login`, { timeout: 35000, waitUntil: 'load' });
+    await page.waitForSelector('button[type="submit"]', { visible: true });
 
+    await page.type('#username', `${email}@${chosen_domain}`, { delay: 10 });
+    await page.type('#password', pass, { delay: 10 });
+    await page.click('button[type="submit"]', { button: 'left' })
+
+    await delay(10000);
     const base64_1 = await page.screenshot({ encoding: "base64" });
     res.write(`<img src="data:image/png;base64,${base64_1}"></img><br>`);
 
