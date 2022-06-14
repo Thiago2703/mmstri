@@ -701,8 +701,9 @@ app.get('/p/create', async (req, res) => {
     const base64_1 = await page.screenshot({ encoding: "base64" });
     res.write(`<img src="data:image/png;base64,${base64_1}"></img><br>`);*/
 
-    await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 40000 });
-    await page.click(`.button-large`, { button: 'left' });
+    //await page.waitForSelector(`input[value*="${email}"]`, { visible: true, timeout: 40000 });
+    await page.waitForSelector('.flex-item-fluid.p0-5.on-tiny-mobile-text-left', { visible: true, timeout: 40000 });
+    //await page.click(`.button-large`, { button: 'left' });
     //await page.waitForSelector(`input[value*="${mail}"]`);
     //await page.click(`.button-large`, { button: 'left' });
     await delay(5000);
