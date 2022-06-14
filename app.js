@@ -847,6 +847,8 @@ app.get('/p/first', async (req, res) => {
     let txt = $('body').text();
     message = txt.replaceAll(/(\r\n|\r|\n)/g, '\n').replaceAll(/\s\s+|\xA0|&nbsp;/g, ' ');
 
+    await client.logout();
+
     res.write(`{"status": "success", "duration":"${(stop - start) / 1000}s", "message":"${message}"}`);
     res.end();
 
