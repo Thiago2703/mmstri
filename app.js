@@ -4,6 +4,8 @@
 const express = require('express');
 const delay = require('delay');
 const axios = require('axios');
+
+
 var crypto = require('crypto');
 const querystring = require('querystring');
 const path = require('path');
@@ -13,8 +15,8 @@ const protonmail = require('mail-proton-api');
 const cheerio = require('cheerio');
 const useProxy = require('puppeteer-page-proxy');
 var randomWords = require('random-words');
-const name_list = fs.readFileSync(path.join(__dirname, 'name_list.txt')).toString().replace(/\r\n/g, '\n').split('\n');
-const proxies = fs.readFileSync(path.join(__dirname, 'proxies.txt')).toString().replace(/\r\n/g, '\n').split('\n');
+//const name_list = fs.readFileSync(path.join(__dirname, 'name_list.txt')).toString().replace(/\r\n/g, '\n').split('\n');
+//const proxies = fs.readFileSync(path.join(__dirname, 'proxies.txt')).toString().replace(/\r\n/g, '\n').split('\n');
 var UA = require('user-agents');
 var httpsProxyAgent = require('https-proxy-agent');
 
@@ -28,7 +30,22 @@ const puppeteerS = addExtra(puppeteer);
 const stealth = StealthPlugin();
 puppeteerS.use(stealth);
 
-setInterval(function () { console.log('HI') }, 1000);
+//
+
+const start = require('./proxy-scraper.js');
+var ALL_ALIVE = [];
+var timeout;
+async function update() {
+  if (timeout) clearTimeout(timeout);
+  const t1 = new Date();
+  await start(ALL_ALIVE)
+  await delay(300000)
+  timeout = setTimeout(update, Math.max(0, 1000 - new Date + t1));
+}
+update();
+
+
+setInterval(function () { console.log(ALL_ALIVE) }, 30000);
 /**
  * helps
  */

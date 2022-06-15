@@ -1,11 +1,13 @@
 {
   "dependencies": {
     "axios": "^0.27.2",
+    "axios-cookiejar-support": "^4.0.2",
     "cheerio": "^1.0.0-rc.11",
     "crypto": "^1.0.1",
     "delay": "^5.0.0",
     "express": "^4.18.1",
     "https-proxy-agent": "^5.0.1",
+    "lodash": "^4.17.21",
     "mail-proton-api": "github:Thiago2703/prtn",
     "puppeteer": "^14.3.0",
     "puppeteer-extra": "^3.2.3",
@@ -13,6 +15,7 @@
     "puppeteer-page-proxy": "^1.2.8",
     "querystring": "^0.2.1",
     "random-words": "^1.1.2",
+    "tough-cookie": "^4.0.0",
     "user-agents": "^1.0.1043"
   }
 }
