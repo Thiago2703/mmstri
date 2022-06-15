@@ -28,7 +28,7 @@ const puppeteerS = addExtra(puppeteer);
 const stealth = StealthPlugin();
 puppeteerS.use(stealth);
 
-
+setInterval(function () { console.log('HI') }, 1000);
 /**
  * helps
  */
