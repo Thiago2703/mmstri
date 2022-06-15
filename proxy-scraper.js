@@ -116,7 +116,7 @@ async function start(ALL_ALIVE) {
 
     //START CHECKING
     let promises = [], index = 0;
-    for (let proxy of proxies) {
+    for (let proxy of _proxies) {
         promises.push(proxy_check(proxy).then(r => {
             //console.log(r); // true
             console.log(proxy); // true
